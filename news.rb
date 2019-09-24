@@ -1,8 +1,13 @@
+# File created 09/24/2019 by Leah Gillespie
+
 # Created 09/24/2019 by Leah Gillespie
 class News
+
+  attr_reader :sport, :date
+
   # Created 09/24/2019 by Leah Gillespie
-  def initialize (team, date, headline, url)
-    @team = team
+  def initialize(sport, date, headline, url)
+    @sport = sport
     @date = date
     @headline = headline
     @url = url
@@ -10,7 +15,8 @@ class News
 
   # Created 09/24/2019 by Leah Gillespie
   def display()
-    puts "OSU #{@team} news for #{@date}: #{@headline}"
+    puts "OSU #{@sport} news, #{@date}: #{@headline}"
     puts "For more information, go to #{@url}"
   end
+
 end

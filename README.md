@@ -11,20 +11,21 @@
 Please list who did what for each part of the project.
 Also list if people worked together (pair programmed) on a particular section.
 
-Sri Ramya Dandu
-* Pulling information about each team's schedule, including date, opponent, and location
+Sri Ramya Dandu:
+* Parse the schedules for different sports from ohiostatebuckeyes.com
+* Parsing includes finding the date, opponent, score, and if the game is home or away
 
-Leah Gillespie
-* Creating storage for schedule and news information
-* User interface: prompting, searching, and displaying information based on user request
+Leah Gillespie:
+* User interface (accepting user input, displaying information)
+* Creating data structures for parsed data to be used in search
 
 Neel Mansukhani
-* Storing user information, such as email addresses
-* Printing information to a file to prep for email distribution
+* Setting up back end to store user data, such as emails
+* Printing information to a file so it can be emailed out
 
 Sharon Qiu
-* Pulling news information including team, date, headline, and URL
+* Parsing each sport's news feed, including date, team, headline, and URL
 
-David Wing
-* Pulling information about past seasons and full season stats
-* Back end prep for cron job for email
+David Wing:
+* Parsing past seasons and gathering season stats
+* Setting up back end for a cron job
