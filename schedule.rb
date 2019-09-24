@@ -3,27 +3,22 @@
 # Created 09/24/2019 by Leah Gillespie
 class Schedule
 
-  attr_reader :sport, :date, :opponent, :location
+  attr_reader :sport
 
   # Created 09/24/2019 by Leah Gillespie
-  def initialize(sport, date, opponent, location)
+  def initialize(sport, schedule)
     @sport = sport
-    @date = date
-    @opponent = opponent
-    @location = location
-    if location == "Columbus"
-      @home = true
-    else
-      @home = false
-    end
+    @schedule = schedule
   end
 
   # Created 09/24/2019 by Leah Gillespie
   def display()
-    if @home
-      puts "On #{@date}, OSU's #{@sport} team played #{@opponent} at home."
-    else
-      puts "On #{@date}, OSU's #{@sport} team played #{@opponent} in #{@location}."
+    @schedule.each do |game|
+      if game[2] == "home"
+        puts "On #{game[0]}, OSU's #{@sport} team plays #{game[1]} at home."
+      else
+        puts "On #{game[0]}, OSU's #{@sport} team plays #{game[1]} away."
+      end
     end
   end
 

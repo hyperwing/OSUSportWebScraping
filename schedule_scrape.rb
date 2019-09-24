@@ -3,6 +3,7 @@
 # https://ohiostatebuckeyes.com/bucks-on-us/  for each of the free sports
 
 require "mechanize"
+require_relative 'schedule.rb'
 
 # Created 09/23/2019 by Sri Ramya Dandu
 # Parses the schedule page of the given sports team and returns an array
@@ -34,14 +35,10 @@ end
 def all_sports_schedules
   agent = Mechanize.new
   osu_sports_page = agent.get "https://ohiostatebuckeyes.com/bucks-on-us/"
-
+  all_sports_info = Array.new
   osu_sports_page.links_with(href: /sports/, class: /ohio-block-links__text/).each do |sport_page_link|
     schedule_page = sport_page_link.click
-    all_sports_info = parse_schedule schedule_page
-    all_sports_info.unshift schedule_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, '')
-    print all_sports_info, "\n"
+    all_sports_info.push (Schedule.new schedule_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_schedule(schedule_page))
   end
+  return all_sports_info
 end
-
-
-all_sports_schedules
