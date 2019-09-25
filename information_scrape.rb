@@ -29,6 +29,15 @@ def parse_schedule(current_page)
   game_info
 end
 
+# Created 09/23/2019 by Sharon Qiu
+def parse_news(webpage)
+  agent = Mechanize.new
+  main_page = agent.get "https://ohiostatebuckeyes.com/bucks-on-us/"
+  
+
+end
+
+
 # Created 09/23/2019 by Sri Ramya Dandu
 # Obtains and outputs all the schedules for all the free sports
 def all_sports_schedules
