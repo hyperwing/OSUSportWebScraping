@@ -1,5 +1,8 @@
+# File created 9/24/19 by David Wing
+
 require_relative("../past_season_scrape")
 
+# Created 9/24/19 by David Wing
 context "Checks if season has statistics " do
 
     it "Returns true when mens Soccer Season 2010-2011 has stats" do
@@ -23,6 +26,7 @@ context "Checks if season has statistics " do
     end
 end
 
+# Created 9/24/19 David Wing
 context "Updates season statistics " do
 
     it "Returns correct stats when mens Soccer Season 2011-12 is updated with stats" do
