@@ -1,4 +1,5 @@
 # Created 09/24/2019 by Leah Gillespie
+# Edited 09/25/2019 by Sharon Qiu
 
 require_relative 'info_scrape'
 
@@ -15,7 +16,7 @@ def getNews(sport, all_news)
   
 end
 
-all_schedules = all_sports_schedules
+all_schedules_and_news = all_sports_schedules_and_news
 #all_news =
 while true
   puts "What sport would you like to look at? (Please use the full name)"
@@ -25,7 +26,7 @@ while true
   s_or_n = gets
   s_or_n.chomp!
   if s_or_n == "S"
-    getSchedule sport, all_schedules
+    getSchedule sport, all_schedules_and_news[0]
   # else
   #   getNews sport, all_news
   end

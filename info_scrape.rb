@@ -1,11 +1,13 @@
 # File created 09/23/2019 by Sri Ramya Dandu
 # Edited 09/24/2019 by Sharon Qiu
+# Edited 09/25/2019 by Sharon Qiu
 # Obtains the date, opponent, and location info from the following url.
 # Also scrapes news concerning the various sports teams.
 # https://ohiostatebuckeyes.com/bucks-on-us/  for each of the free sports
 
 require 'mechanize'
 require_relative 'schedule'
+require_relative 'news'
 
 # Created 09/23/2019 by Sri Ramya Dandu
 # Parses the schedule page of the given sports team and returns an array
@@ -34,16 +36,16 @@ end
 
 # Created 09/23/2019 by Sharon Qiu
 # Edited 09/24/2019 by Sharon Qiu: Added in scrape for date, team, title, and URL.
-# Scraped info is inclusive and ordered by date, title, and URL of the article.
+# Scraped info is inclusive and ordered by date, title, and URL of the article. Only scrapes 2019 articles per sport.
 # Returns an arrays of articles within an array. Each article array contains:
-# [0] = headline
-# [1] = date
+# [0] = date
+# [1] = headline
 # [2] = url
 def parse_news(webpage)
   news_page = webpage.links_with(href: /news/, text: /News/)[39].click #index of the specific sport news
   news_articles = Array.new
-  #puts news_page.uri
   
+  # Parses each news article.
   news_page.css('div[class="sport_news_list__item col-md-4 col-sm-6 col-xs-12"]').each do |value|
     date = value.css('span').text.split
     date = date[0]
@@ -54,7 +56,7 @@ def parse_news(webpage)
 
     title = value.css('div[class="inner"] > a').text.strip
     url = value.css('div[class="inner"]').css('a')[1]['href']
-    news_articles.push([title,date,url])
+    news_articles.push([date,title,url])
   end
   news_articles
 end
@@ -75,7 +77,7 @@ def all_sports_schedules_and_news
     all_sports_info.push (Schedule.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_schedule(team_page))
     
     # TODO: implement news class and return sports_news array with news objects.
-    sports_news = parse_news team_page # returns articles
+    sports_news = parse_news team_page # returns articles without reference to sports team.
   end
   
   return all_sports_info, sports_news

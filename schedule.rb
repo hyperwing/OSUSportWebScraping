@@ -9,7 +9,7 @@ class Schedule
   def initialize(sport, schedule)
     @sport = sport
     @schedule = schedule
-  end
+  end  
 
   # Created 09/24/2019 by Leah Gillespie
   def display()
