@@ -35,43 +35,48 @@ end
 # Created 09/23/2019 by Sharon Qiu
 # Edited 09/24/2019 by Sharon Qiu: Added in scrape for date, team, title, and URL.
 # Scraped info is inclusive and ordered by date, title, and URL of the article.
-# Returns an array articles and their info in separated array objects.
+# Returns an arrays of articles within an array. Each article array contains:
+# [0] = headline
+# [1] = date
+# [2] = url
 def parse_news(webpage)
-  news_page = webpage.link_with(text: "News").click
+  news_page = webpage.links_with(href: /news/, text: /News/)[39].click #index of the specific sport news
   news_articles = Array.new
-
-  #away game schedule
-  news_page.css('div[class="sport_news_list__item"]').each do |value|
-    date = value.css('span').text.strip
+  #puts news_page.uri
+  
+  news_page.css('div[class="sport_news_list__item col-md-4 col-sm-6 col-xs-12"]').each do |value|
+    date = value.css('span').text.split
+    date = date[0]
     year = date.split('/')[2]
 
     # Check to see if it's a news article from this year.
     break if year != "2019"
 
-    title = value.css('div[class="inner"]')[1].text.strip
-    url = value.css('div[class="inner"]')['href']
+    title = value.css('div[class="inner"] > a').text.strip
+    url = value.css('div[class="inner"]').css('a')[1]['href']
     news_articles.push([title,date,url])
   end
   news_articles
 end
 
-
 # Created 09/23/2019 by Sri Ramya Dandu
 # Edited 09/24/2019 by Sharon Qiu: modified the loop to also parse news data
+# Edited 09/25/2019 by Sharon Qiu: modified the return to return schedules and news in an array where the first element is schedules and the second is news.
 # Obtains and outputs all the schedules for all the free sports
 def all_sports_schedules_and_news
   agent = Mechanize.new
   osu_sports_page = agent.get "https://ohiostatebuckeyes.com/bucks-on-us/"
   all_sports_info = Array.new
-  sports_news = Hash.new
+  sports_news = Array.new
   # For schedule scraping
   osu_sports_page.links_with(href: /sports/, class: /ohio-block-links__text/).each do |sport_page_link|
-    team_name = sport_page_link.text
+    team_name = sport_page_link.text.strip
     team_page = sport_page_link.click
     all_sports_info.push (Schedule.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_schedule(team_page))
-    sports_news[:team_name] = parse_news team_page
+    
+    # TODO: implement news class and return sports_news array with news objects.
+    sports_news = parse_news team_page # returns articles
   end
-
-  puts sports_news
+  
   return all_sports_info, sports_news
 end
