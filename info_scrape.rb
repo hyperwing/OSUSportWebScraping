@@ -1,6 +1,8 @@
 # File created 09/23/2019 by Sri Ramya Dandu
+# Edited 09/24/2019 by Leah Gillespie
 # Edited 09/24/2019 by Sharon Qiu
 # Edited 09/25/2019 by Sharon Qiu
+# Edited 09/26/2019 by Leah Gillespie
 # Obtains the date, opponent, and location info from the following url.
 # Also scrapes news concerning the various sports teams.
 # https://ohiostatebuckeyes.com/bucks-on-us/  for each of the free sports
@@ -62,8 +64,10 @@ def parse_news(webpage)
 end
 
 # Created 09/23/2019 by Sri Ramya Dandu
+# Edited 09/24/2019 by Leah Gillespie: Added use of Schedule class
 # Edited 09/24/2019 by Sharon Qiu: modified the loop to also parse news data
 # Edited 09/25/2019 by Sharon Qiu: modified the return to return schedules and news in an array where the first element is schedules and the second is news.
+# Edited 09/26/2019 by Leah Gillespie: Added use of News class
 # Obtains and outputs all the schedules for all the free sports
 def all_sports_schedules_and_news
   agent = Mechanize.new
@@ -77,7 +81,7 @@ def all_sports_schedules_and_news
     all_sports_info.push (Schedule.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_schedule(team_page))
     
     # TODO: implement news class and return sports_news array with news objects.
-    sports_news = parse_news team_page # returns articles without reference to sports team.
+    sports_news.push (News.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_news(team_page)) # returns articles without reference to sports team.
   end
   
   return all_sports_info, sports_news
