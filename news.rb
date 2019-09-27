@@ -14,9 +14,15 @@ class News
   end
 
   # Created 09/24/2019 by Leah Gillespie
-  def display()
-    puts "OSU #{@sport} news, #{@date}: #{@headline}"
-    puts "For more information, go to #{@url}"
+  # Edited 09/26/2019 by Neel Mansukhani: Prints to file if specified
+  def display output
+    if output.nil?
+      puts "OSU #{@sport} news, #{@date}: #{@headline}"
+      puts "For more information, go to #{@url}"
+    else
+      output.puts "OSU #{@sport} news, #{@date}: #{@headline}"
+      output.puts "For more information, go to #{@url}"
+    end
   end
 
 end
