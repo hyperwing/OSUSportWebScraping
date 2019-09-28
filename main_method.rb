@@ -3,35 +3,41 @@
 # Edited 09/25/2019 by Neel Mansukhani
 # Edited 09/26/2019 by Leah Gillespie
 # Edited 09/26/2019 by Neel Mansukhani
-
+# TODO: Documentation for all functions
 require_relative 'info_scrape'
 require_relative 'user'
 require_relative 'utilities'
+# TODO:  Rename this file
+# TODO: Move functions to other file
+# TODO: all gets to upper case
+# TODO: add autocorrect
 
+# TODO: terse code function name
+# Created 09/26/2019 by Leah Gillespie
 # Edited 09/26/2019 by Neel Mansukhani: Returns sport schedule instead of printing
 def getSchedule(sport, all_schedules)
   all_schedules[0].each do |current|
-    if current.sport == sport
-      return current
-    end
+      return current if current.sport == sport
   end
 end
 
+# TODO: terse code function name
 # Created 09/26/2019 by Leah Gillespie
 # Edited 09/26/2019 by Neel Mansukhani: Returns sport news instead of printing
 def getNews(sport, all_news)
   all_news[1].each do |current|
-    if current.sport == sport
-      return current
+      return current if current.sport == sport
     end
   end
 end
 
+# TODO: Make class method of user?
+# TODO: terse code function name
 # Created 09/26/2019 by Neel Mansukhani
-# Get's user info and creates file containing email contents
+# Gets user info and creates file containing email contents
 def getUserPreferences
   puts "Please enter a username: "
-  username = gets.chomp # TODO: Check if username already exists
+  username = gets.chomp # TODO: Check if username already exists and don't ask for email on return of user
   puts "Please enter a valid email address: "
   email = gets.chomp
   while !isValidEmail? email # TODO: Create Regex in utilities
@@ -42,6 +48,9 @@ def getUserPreferences
   yes_no = "Y"
   sports = []
   while yes_no == "Y"
+    # TODO: Move get sport to own function.
+    # TODO: Add display list of sports.
+    # TODO: Add error msg.
     puts "Please enter the full name of a sport you would like information about: "
     sport = gets.chomp
     while !isValidSport? sport # TODO: Create Regex in utilities
@@ -73,14 +82,16 @@ def getUserPreferences
   User.new username, email, sports, info
 end
 
+# Created 09/24/2019 by Leah Gillespie
 # Edited 09/25/2019 by Neel Mansukhani: Added if __FILE__ to use functions in different files.
+# Edited 09/26/2019 by Leah Gillespie: Updated to work with news.
 # Edited 09/26/2019 by Neel Mansukhani: Added user preferences for emails and input validation.
 if __FILE__ == $0
   all_schedules_and_news = all_sports_schedules_and_news
-  #all_news =
   continue = "Y"
   while continue == "Y"
     yes_no = ""
+    # TODO: Move y/n to its own function
     while yes_no != "Y" && yes_no != "N"
       puts "Would you like to receive emails? (Y/N)"
       yes_no = gets.chomp
