@@ -1,11 +1,11 @@
-# File created 09/24/2019 by Leah Gillespie
+# File Created 09/24/2019 by Leah Gillespie
 
 # Created 09/24/2019 by Leah Gillespie
 # Edited 09/26/2019 by Leah Gillespie
 # Edited 09/26/2019 by Neel Mansukhani
 class News
 
-  attr_reader :sport, :date
+  attr_reader :sport
 
   # Created 09/24/2019 by Leah Gillespie
   def initialize(sport, news)
