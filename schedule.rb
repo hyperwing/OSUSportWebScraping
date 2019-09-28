@@ -14,7 +14,7 @@ class Schedule
 
   # Created 09/24/2019 by Leah Gillespie
   # Edited 09/26/2019 by Neel Mansukhani: Prints to file if specified
-  def display output
+  def display(output)
     if output.nil?
       @schedule.each do |game|
         if game[2] == "home"
@@ -32,7 +32,5 @@ class Schedule
         end
       end
     end
-
   end
-
 end
