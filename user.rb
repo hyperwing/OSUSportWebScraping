@@ -7,13 +7,15 @@ class User
 
   attr_accessor :sports, :info
   # Created 09/25/2019 by Neel Mansukhani
-  def initialize username, email, sports, info
+  def initialize(username, email, sports, info)
+    # TODO: unparallel this for consistency.
     @username, @email, @sports, @info = username, email, sports, info
-    # TODO: Permanently save user data in a txt or something else.
+    # TODO: Permanently save user data to json.
   end
 
   # Created 09/25/2019 by Neel Mansukhani
-  def createEmail all_schedules_and_news
+  # TODO: createEmail to create_email refractor.
+  def createEmail(all_schedules_and_news)
     user_file = File.open "user_information/#{@username}.txt", 'w'
     user_file.puts @email
     if @info.include? 'News'
