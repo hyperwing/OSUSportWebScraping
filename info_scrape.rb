@@ -19,7 +19,7 @@ def parse_schedule(current_page)
   schedule_page = current_page.link_with(href: /schedule/, class: /ohio--home-title-button ohio--base-button/).click
 
   game_info = Array.new
-
+  # TODO: awy_game / home_game regex
   #away game schedule
   schedule_page.css('div[class="ohio--schedule-item away_game"]').each do |x|
     date = x.css('div[class="ohio--schedule-date"]').text.strip
@@ -31,7 +31,7 @@ def parse_schedule(current_page)
   schedule_page.css('div[class="ohio--schedule-item home_game"]').each do |x|
     date = x.css('div[class="ohio--schedule-date"]').text.strip
     team = x.css('div[class="ohio--schedule-team-name"]').text.strip.gsub(/\t/, '').gsub(/\*/,'')
-    game_info.push([date,team,"home"])
+    game_info.push [date,team,"home"]
   end
   game_info
 end
@@ -44,6 +44,7 @@ end
 # [1] = headline
 # [2] = url
 def parse_news(webpage)
+  # TODO: Explan magic number
   news_page = webpage.links_with(href: /news/, text: /News/)[39].click #index of the specific sport news
   news_articles = Array.new
   
@@ -54,11 +55,12 @@ def parse_news(webpage)
     year = date.split('/')[2]
 
     # Check to see if it's a news article from this year.
+    # TODO: pull 2019 from system
     break if year != "2019"
 
     title = value.css('div[class="inner"] > a').text.strip
     url = value.css('div[class="inner"]').css('a')[1]['href']
-    news_articles.push([date,title,url])
+    news_articles.push [date,title,url]
   end
   news_articles
 end
@@ -80,9 +82,8 @@ def all_sports_schedules_and_news
     team_page = sport_page_link.click
     all_sports_info.push (Schedule.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_schedule(team_page))
     
-    # TODO: implement news class and return sports_news array with news objects.
     sports_news.push (News.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_news(team_page)) # returns articles without reference to sports team.
   end
-  
+  # TODO: store in hash
   return all_sports_info, sports_news
 end
