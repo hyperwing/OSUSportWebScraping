@@ -12,30 +12,26 @@ require_relative 'utilities'
 # TODO: all gets to upper case
 # TODO: add autocorrect
 
-# TODO: terse code function name
 # Created 09/26/2019 by Leah Gillespie
 # Edited 09/26/2019 by Neel Mansukhani: Returns sport schedule instead of printing
-def getSchedule(sport, all_schedules)
+def get_schedule(sport, all_schedules)
   all_schedules[0].each do |current|
       return current if current.sport == sport
   end
 end
 
-# TODO: terse code function name
 # Created 09/26/2019 by Leah Gillespie
 # Edited 09/26/2019 by Neel Mansukhani: Returns sport news instead of printing
-def getNews(sport, all_news)
+def get_news(sport, all_news)
   all_news[1].each do |current|
       return current if current.sport == sport
-    end
   end
 end
 
 # TODO: Make class method of user?
-# TODO: terse code function name
 # Created 09/26/2019 by Neel Mansukhani
 # Gets user info and creates file containing email contents
-def getUserPreferences
+def get_user_preferences
   puts "Please enter a username: "
   username = gets.chomp # TODO: Check if username already exists and don't ask for email on return of user
   puts "Please enter a valid email address: "
@@ -97,8 +93,8 @@ if __FILE__ == $0
       yes_no = gets.chomp
     end
     if yes_no == "Y"
-      user = getUserPreferences
-      user.createEmail all_schedules_and_news
+      user = get_user_preferences
+      user.create_email all_schedules_and_news
       puts 'Email Successfully Created'
     end
     puts "What sport would you like to look at? (Please use the full name)"
@@ -114,15 +110,15 @@ if __FILE__ == $0
     end
     case s_n_b
     when "Schedule"
-      schedule = getSchedule sport, all_schedules_and_news
+      schedule = get_schedule sport, all_schedules_and_news
       schedule.display nil
     when "News"
-      news = getNews sport, all_schedules_and_news
+      news = get_news sport, all_schedules_and_news
       news.display nil
     when "Both"
-      schedule = getSchedule sport, all_schedules_and_news
+      schedule = get_schedule sport, all_schedules_and_news
       schedule.display nil
-      news = getNews sport, all_schedules_and_news
+      news = get_news sport, all_schedules_and_news
       news.display nil
     end
     continue = ""

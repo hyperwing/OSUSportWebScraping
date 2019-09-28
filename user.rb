@@ -1,6 +1,6 @@
 # File Created 09/25/2019 by Neel Mansukhani
 
-require_relative 'main_method'
+require_relative 'web_scraping'
 
 # Created 09/25/2019 by Neel Mansukhani
 class User
@@ -8,27 +8,28 @@ class User
   attr_accessor :sports, :info
   # Created 09/25/2019 by Neel Mansukhani
   def initialize(username, email, sports, info)
-    # TODO: unparallel this for consistency.
-    @username, @email, @sports, @info = username, email, sports, info
+    @username = username
+    @email = email
+    @sports = sports
+    @info = info
     # TODO: Permanently save user data to json.
   end
 
   # Created 09/25/2019 by Neel Mansukhani
-  # TODO: createEmail to create_email refractor.
-  def createEmail(all_schedules_and_news)
+  def create_email(all_schedules_and_news)
     user_file = File.open "user_information/#{@username}.txt", 'w'
     user_file.puts @email
     if @info.include? 'News'
       @sports.each do |sport|
         user_file.puts "#{sport} News"
-        news = getNews sport, all_schedules_and_news
+        news = get_news sport, all_schedules_and_news
         news.display user_file
       end
     end
     if @info.include? 'Schedule'
       @sports.each do |sport|
         user_file.puts "#{sport} Schedule"
-        schedule = getSchedule sport, all_schedules_and_news
+        schedule = get_schedule sport, all_schedules_and_news
         schedule.display user_file
       end
     end
