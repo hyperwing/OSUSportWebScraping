@@ -1,5 +1,6 @@
 # File created 10/05/2019 by Sharon Qiu
-# Puts all methods that compile retunred information together.
+# # Edited 10/04/2019 by Sri Ramya Dandu
+# Puts all methods that compile returned information together.
 
 require_relative 'info_scrape'
 require_relative 'user'
@@ -44,6 +45,7 @@ end
 # TODO: Make class method of user?
 # Created 09/26/2019 by Neel Mansukhani
 # Edited 10/04/2019 by Sri Ramya Dandu: Factored input to functions
+# Edited 10/05/2019 by Sri Ramya Dandu: Fixed case issues
 # Gets user info and creates file containing email contents
 def get_user_preferences(sports_reg_ex)
     print "Please enter a username: "
@@ -65,17 +67,17 @@ def get_user_preferences(sports_reg_ex)
         yes_no = yes_no_input "Would you like to add another sport? (Y/N): "
     end
     s_n_b = ""
-    while s_n_b != "Schedule" && s_n_b != "News" && s_n_b != "Both"
+    while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both"
         print "Please enter 'Schedule' for schedule information, 'News' for news, or 'Both' for both: "
-        s_n_b = gets.chomp
+        s_n_b = gets.chomp.downcase
     end
     info = []
     case s_n_b
-    when "Schedule"
+    when "schedule"
         info.push"Schedule"
-    when "News"
+    when "news"
         info.push"News"
-    when "Both"
+    when "both"
         info.push"Schedule"
         info.push"News"
     end

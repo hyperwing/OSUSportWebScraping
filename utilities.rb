@@ -1,5 +1,6 @@
 # File Created 09/26/2019 by Neel Mansukhani
 # Edited 10/04/2019 by Sri Ramya Dandu
+# Edited 10/05/2019 by Sri Ramya Dandu
 
 # Created 10/04/2019 by Sri Ramya Dandu
 # Outputs a list of all the sports options
@@ -19,10 +20,11 @@ def list_sports(sports_reg_ex)
 end
 
 # Created 10/04/2019 by Sri Ramya Dandu
+# Edited 10/05/2019 by Sri Ramya Dandu: Fixed bugs in input
 # Obtains a valid sports choice
 def get_sport_choice(sports_reg_ex)
   print "Please enter the full name of a sport you would like information about:"
-  sport = gets.chomp
+  sport = gets.chomp.gsub(/[A-Za-z']+/,&:capitalize)
   while !sports_reg_ex.has_key? sport
     sport_suggestion  = auto_suggest sport, sports_reg_ex
 
@@ -33,13 +35,13 @@ def get_sport_choice(sports_reg_ex)
         list_sports sports_reg_ex if (yes_no_input "Would you like to see the list of sports again?") == "Y"
 
         print "Please enter the full name of a sport you would like information about:"
-        sport = gets.chomp
+        sport = gets.chomp.gsub(/[A-Za-z']+/,&:capitalize)
       end
     else
       puts "Couldn't identify a sport!"
       list_sports sports_reg_ex if (yes_no_input "Would you like to see the list of sports again?") == "Y"
       print "Please enter the full name of a sport you would like information about:"
-      sport = gets.chomp
+      sport = gets.chomp.gsub(/[A-Za-z']+/,&:capitalize)
     end
   end
   sport
