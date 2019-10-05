@@ -11,6 +11,7 @@ require 'mechanize'
 require_relative 'schedule'
 require_relative 'news'
 
+
 # Created 09/23/2019 by Sri Ramya Dandu
 # Parses the schedule page of the given sports team and returns an array
 #  array[0] = sports team
@@ -47,21 +48,24 @@ def parse_news(webpage)
   # TODO: Explan magic number
   news_page = webpage.links_with(href: /news/, text: /News/)[39].click #index of the specific sport news
   news_articles = Array.new
-  
+  current_yr = nil
+  prev_yr = nil
   # Parses each news article.
   news_page.css('div[class="sport_news_list__item col-md-4 col-sm-6 col-xs-12"]').each do |value|
     date = value.css('span').text.split
     date = date[0]
-    year = date.split('/')[2]
 
-    # Check to see if it's a news article from this year.
-    # TODO: pull 2019 from system
-    break if year != "2019"
+    # Only takes in news articles for current year. This is a daily digest, not an archive of information...
+    current_yr = date.split('/')[2]
+    prev_yr = current_yr if prev_yr == nil
+    break if current_yr != prev_yr
+    prev_yr = current_yr
 
     title = value.css('div[class="inner"] > a').text.strip
     url = value.css('div[class="inner"]').css('a')[1]['href']
     news_articles.push [date,title,url]
   end
+  
   news_articles
 end
 
@@ -74,16 +78,25 @@ end
 def all_sports_schedules_and_news
   agent = Mechanize.new
   osu_sports_page = agent.get "https://ohiostatebuckeyes.com/bucks-on-us/"
-  all_sports_info = Array.new
+  sports_schedules = Array.new
   sports_news = Array.new
   # For schedule scraping
   osu_sports_page.links_with(href: /sports/, class: /ohio-block-links__text/).each do |sport_page_link|
     team_name = sport_page_link.text.strip
     team_page = sport_page_link.click
-    all_sports_info.push (Schedule.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_schedule(team_page))
-    
+    sports_schedules.push (Schedule.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_schedule(team_page))
+    puts team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, '')
     sports_news.push (News.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_news(team_page)) # returns articles without reference to sports team.
   end
-  # TODO: store in hash
-  return all_sports_info, sports_news
+
+  returned_hash = Hash.new{}
+  returned_hash[:schedules] = sports_schedules
+  returned_hash[:news] = sports_news
+  
+  returned_hash
 end
+
+=begin
+puts team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, '')
+    print parse_schedule team_page
+=end
