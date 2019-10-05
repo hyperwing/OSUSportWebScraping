@@ -3,6 +3,7 @@
 # Edited 09/24/2019 by Sharon Qiu
 # Edited 09/25/2019 by Sharon Qiu
 # Edited 09/26/2019 by Leah Gillespie
+# Edited 10/05/2019 by Sharon Qiu
 # Obtains the date, opponent, and location info from the following url.
 # Also scrapes news concerning the various sports teams.
 # https://ohiostatebuckeyes.com/bucks-on-us/  for each of the free sports
@@ -74,6 +75,7 @@ end
 # Edited 09/24/2019 by Sharon Qiu: modified the loop to also parse news data
 # Edited 09/25/2019 by Sharon Qiu: modified the return to return schedules and news in an array where the first element is schedules and the second is news.
 # Edited 09/26/2019 by Leah Gillespie: Added use of News class
+# Edited 10/05/2019 by Sharon Qiu: modified the return to return schedules and news in a hashmap.
 # Obtains and outputs all the schedules for all the free sports
 def all_sports_schedules_and_news
   agent = Mechanize.new
