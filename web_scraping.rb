@@ -4,6 +4,7 @@
 # Edited 09/26/2019 by Leah Gillespie
 # Edited 09/26/2019 by Neel Mansukhani
 # TODO: Documentation for all functions
+require 'time'
 require_relative 'info_scrape'
 require_relative 'user'
 require_relative 'utilities'
@@ -82,8 +83,14 @@ end
 # Edited 09/25/2019 by Neel Mansukhani: Added if __FILE__ to use functions in different files.
 # Edited 09/26/2019 by Leah Gillespie: Updated to work with news.
 # Edited 09/26/2019 by Neel Mansukhani: Added user preferences for emails and input validation.
+# Edited 10/02/2019 by Sharon Qiu: ..
 if __FILE__ == $0
+  puts "Gathering information..."
+  start = Time.now
   all_schedules_and_news = all_sports_schedules_and_news
+  ending = Time.now
+  puts "Finished gathering information. Time taken: #{ending-start} seconds."
+  
   continue = "Y"
   while continue == "Y"
     yes_no = ""
