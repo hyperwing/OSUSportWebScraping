@@ -45,7 +45,6 @@ context 'Checks for valid auto suggestions' do
     expect(auto_suggest "Woen's Socc",sport_reg_exp).to eq("Women’s Soccer")
   end
 
-
   it "doesn't return a suggestion for blank input" do
     expect(auto_suggest "",sport_reg_exp).to eq("")
   end

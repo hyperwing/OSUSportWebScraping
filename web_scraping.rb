@@ -5,7 +5,10 @@
 # Edited 09/26/2019 by Neel Mansukhani
 # Edited 09/28/2019 by Sri Ramya Dandu
 # Edited 09/29/2019 by Sri Ramya Dandu
+# Edited 10/02/2019 by Sharon Qiu
 # Edited 10/04/2019 by Sri Ramya Dandu
+# Edited 10/05/2019 by Sri Ramya Dandu
+# Edited 10/05/2019 by Sharon Qiu
 
 # TODO: Documentation for all functions
 require 'time'
@@ -21,8 +24,10 @@ require_relative 'get_compiled_info'
 # Edited 09/25/2019 by Neel Mansukhani: Added if __FILE__ to use functions in different files.
 # Edited 09/26/2019 by Leah Gillespie: Updated to work with news.
 # Edited 09/26/2019 by Neel Mansukhani: Added user preferences for emails and input validation.
-# Edited 10/02/2019 by Sharon Qiu: ..
+# Edited 10/02/2019 by Sharon Qiu: added time check
 # Edited 10/04/2019 by Sri Ramya Dandu: Modified input and factored into functions
+# Edited 10/05/2019 by Sri Ramya Dandu: Fixed case issues
+# Edited 10/05/2019 by Sharon Qiu: Implemented news query search.
 if __FILE__ == $0
   puts "Gathering information..."
   start = Time.now
@@ -47,19 +52,19 @@ if __FILE__ == $0
     end
     sport = get_sport_choice sports_reg_ex
     s_n_b = ""
-    while s_n_b != "Schedule" && s_n_b != "News" && s_n_b != "Both"
+    while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both"
       print "Please enter 'Schedule' for schedule information, 'News' for news, or 'Both' for both: "
-      s_n_b = gets.chomp
+      s_n_b = gets.chomp.downcase
     end
     case s_n_b
-    when "Schedule"
+    when "schedule"
       schedule = get_schedule sport, schedules
       schedule.display nil
-    when "News"
+    when "news"
       kw = get_search_keywords
       news = get_news sport, news_info
       news.display kw
-    when "Both"
+    when "both"
       kw = get_search_keywords
       schedule = get_schedule sport, schedules
       schedule.display nil
