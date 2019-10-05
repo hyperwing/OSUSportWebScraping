@@ -6,6 +6,7 @@
 # Edited 09/28/2019 by Sri Ramya Dandu
 # Edited 09/29/2019 by Sri Ramya Dandu
 # Edited 10/04/2019 by Sri Ramya Dandu
+# Edited 10/05/2019 by Sri Ramya Dandu
 
 # TODO: Documentation for all functions
 require_relative 'info_scrape'
@@ -35,6 +36,7 @@ end
 # TODO: Make class method of user?
 # Created 09/26/2019 by Neel Mansukhani
 # Edited 10/04/2019 by Sri Ramya Dandu: Factored input to functions
+# Edited 10/05/2019 by Sri Ramya Dandu: Fixed case issues
 # Gets user info and creates file containing email contents
 def get_user_preferences(sports_reg_ex)
   print "Please enter a username: "
@@ -56,17 +58,17 @@ def get_user_preferences(sports_reg_ex)
     yes_no = yes_no_input "Would you like to add another sport? (Y/N): "
   end
   s_n_b = ""
-  while s_n_b != "Schedule" && s_n_b != "News" && s_n_b != "Both"
+  while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both"
     print "Please enter 'Schedule' for schedule information, 'News' for news, or 'Both' for both: "
-    s_n_b = gets.chomp
+    s_n_b = gets.chomp.downcase
   end
   info = []
   case s_n_b
-  when "Schedule"
+  when "schedule"
     info.push"Schedule"
-  when "News"
+  when "news"
     info.push"News"
-  when "Both"
+  when "both"
     info.push"Schedule"
     info.push"News"
   end
@@ -78,6 +80,7 @@ end
 # Edited 09/26/2019 by Leah Gillespie: Updated to work with news.
 # Edited 09/26/2019 by Neel Mansukhani: Added user preferences for emails and input validation.
 # Edited 10/04/2019 by Sri Ramya Dandu: Modified input and factored into functions
+# Edited 10/05/2019 by Sri Ramya Dandu: Fixed case issues
 if __FILE__ == $0
   all_schedules_and_news = all_sports_schedules_and_news
   continue = "Y"
@@ -93,18 +96,18 @@ if __FILE__ == $0
     end
     sport = get_sport_choice sports_reg_ex
     s_n_b = ""
-    while s_n_b != "Schedule" && s_n_b != "News" && s_n_b != "Both"
+    while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both"
       print "Please enter 'Schedule' for schedule information, 'News' for news, or 'Both' for both: "
-      s_n_b = gets.chomp
+      s_n_b = gets.chomp.downcase
     end
     case s_n_b
-    when "Schedule"
+    when "schedule"
       schedule = get_schedule sport, all_schedules_and_news
       schedule.display nil
-    when "News"
+    when "news"
       news = get_news sport, all_schedules_and_news
       news.display nil
-    when "Both"
+    when "both"
       schedule = get_schedule sport, all_schedules_and_news
       schedule.display nil
       news = get_news sport, all_schedules_and_news

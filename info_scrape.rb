@@ -80,9 +80,8 @@ def all_sports_schedules_and_news
   osu_sports_page.links_with(href: /sports/, class: /ohio-block-links__text/).each do |sport_page_link|
     team_name = sport_page_link.text.strip
     team_page = sport_page_link.click
-    all_sports_info.push (Schedule.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_schedule(team_page))
-    puts team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, '')
-    sports_news.push (News.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_news(team_page)) # returns articles without reference to sports team.
+    all_sports_info.push (Schedule.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, '').gsub("’","'"), parse_schedule(team_page))
+    sports_news.push (News.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, '').gsub("’","'"), parse_news(team_page)) # returns articles without reference to sports team.
   end
   # TODO: store in hash
   return all_sports_info, sports_news
