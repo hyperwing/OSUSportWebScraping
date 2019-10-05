@@ -81,9 +81,14 @@ def all_sports_schedules_and_news
     team_name = sport_page_link.text.strip
     team_page = sport_page_link.click
     all_sports_info.push (Schedule.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_schedule(team_page))
-    
+    puts team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, '')
     sports_news.push (News.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, ''), parse_news(team_page)) # returns articles without reference to sports team.
   end
   # TODO: store in hash
   return all_sports_info, sports_news
 end
+
+=begin
+puts team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, '')
+    print parse_schedule team_page
+=end
