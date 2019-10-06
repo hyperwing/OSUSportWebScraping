@@ -1,4 +1,6 @@
 # File created 09/24/2019 by David Wing
+# File edited 10/05/2019 by David Wing
+# File edited 10/06/2019 by David Wing
 # Obtains past season wins/loss and other stats.
 # https://ohiostatebuckeyes.com/ 
 
