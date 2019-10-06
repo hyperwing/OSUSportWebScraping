@@ -20,7 +20,7 @@ class Season
         @year = year
         @wins, @losses, @ties, @streak, @loss_streak, @points_against, @points_for, @average_points = 0, 0, 0, 0, 0, 0, 0, 0
         @pct = 0.0
-        update_stats if season_exists
+        update_stats if season_exists and sport != "c-pistol"
     end
 
     # Created 10/06/2019 by Leah Gillespie
@@ -57,17 +57,20 @@ class Season
         
         results = page.search("//span[@class='results']")
         
-        number_of_games = results.children.length
+        number_of_games = 0
 
         won = false
         results.children.each do |result|
 
             if result.text.strip == "W"
                 won = true
+                number_of_games += 1
             elsif result.text.strip == "L"
                 won = false
+                number_of_games += 1
             elsif result.text.strip =="T"
                 won = true
+                number_of_games += 1
             else
                 if result.text.strip.length >0
                     if won

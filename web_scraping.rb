@@ -10,6 +10,8 @@
 # Edited 10/05/2019 by Sri Ramya Dandu
 # Edited 10/05/2019 by Sharon Qiu
 # Edited 10/05/2019 by Neel Mansukhani
+# Edited 10/06/2019 by David Wing
+
 # Main logic for Project
 # Project Description: This program scrapes the following website
 # https://ohiostatebuckeyes.com/bucks-on-us/. 
@@ -32,6 +34,7 @@ require_relative 'past_season_scrape'
 # Edited 10/05/2019 by Sharon Qiu: Implemented news query search.
 # Edited 10/05/2019 by Neel Mansukhani: Removed if __FILE__
 # Edited 10/06/2019 by Leah Gillespie: added I/O for past seasons
+# Edited 10/06/2019 by David Wing: mapped sports to url names
 # ============================================================================
 # 'Main' method, gather info, interacts with user
 puts "Gathering information..."
@@ -79,9 +82,28 @@ while continue == "Y"
     news = get_news sport, news_info
     news.display kw
   when "past"
+
+    # Map the sport into url for the season
+    sport_map = {
+      "Cross Country, Men's" => "m-xc", "Cross Country, Women's" => "w-xc",
+      "Golf, Men's" => "m-golf", "Golf, Women's" =>"w-golf",
+      "Fencing"=> "x-fenc",
+      "Field Hockey"=>"w-fieldh","Ice Hockey, Women" => "w-hockey",
+      "Gymnastics, Men's" => "m-gym",
+      "Lacrosse, Women's" => "w-lacros",
+      "Pistol" => "c-pistol", "Rifle" => "c-rifle",
+      "Rowing" => "w-rowing",
+      "Soccer, Men's" => "m-soccer", "Soccer, Women's" => "w-soccer",
+      "Softball" => "w-softbl",
+      "Swimming & Diving, Men's" => "m-swim", "Swimming & Diving, Women's" => "w-swim", "Synchronized Swimming" => "w-syncs",
+      "Tennis, Men's" => "m-tennis","Tennis, Women's" => "w-tennis",
+      "Track & Field, Men's" => "m-track", "Track & Field, Women's" => "w-track",
+      "Volleyball, Men's" => "m-volley"
+    }
+    
     year = get_year
-    stats = Season.new sport, year
-    get_stats stats #TODO: refactor get_stats
+    stats = Season.new sport_map[sport], year
+    get_stats stats
   end
   continue = yes_no_input "Would you like more information? (Y/N):"
 end
