@@ -147,10 +147,18 @@ def article_match? (query, article_title)
 end
 
 # Created 09/26/2019 by Neel Mansukhani
-def isValidEmail? email
+def is_valid_email? email
   return email.match /[a-zA-Z]+\.[1-9]\d*@(buckeyemail\.)?osu\.edu/
 end
 
+# Created 10/06/2019 by Neel Manukhani
+def is_used_username? username
+  hash = JSON.load File.new 'user_information/user_data.json'
+  hash.each_key do |u|
+    return true if u == username
+  end
+  false
+end
 # Created 10/06/2019 by Leah Gillespie
 def get_year
   valid_yr = false
