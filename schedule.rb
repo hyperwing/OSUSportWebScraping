@@ -23,6 +23,9 @@ class Schedule
           puts "On #{game[0]}, OSU's #{@sport} team plays #{game[1]} away."
         end
       end
+
+      "No schedule available at this time!" if @schedule.length == 0
+
     else
       @schedule.each do |game|
         if game[2] == "home"
@@ -31,6 +34,8 @@ class Schedule
           output.puts "On #{game[0]}, OSU's #{@sport} team plays #{game[1]} away."
         end
       end
+      "No schedule available at this time!" if @schedule.length == 0
+
     end
   end
 end
