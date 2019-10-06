@@ -30,6 +30,26 @@ end
 # Created 9/24/19 David Wing
 context "Updates season statistics " do
 
+    it "Returns correct stats where there are missing results" do
+        w_swim = Season.new("w-swim", 2017)
+
+        expect(w_swim.wins).to eq(4)
+        expect(w_swim.losses).to eq(1)
+        expect(w_swim.ties).to eq(3) 
+        expect(w_swim.pct).to eq(7.0/8.0)
+        expect(w_swim.streak).to eq(3)
+     end
+
+    it "Returns correct stats where there are unconventional scores" do
+        rifle = Season.new("c-rifle", 2017)
+
+        expect(rifle.pct).to eq(0)
+        expect(rifle.streak).to eq(0)
+        expect(rifle.wins).to eq(0)
+        expect(rifle.losses).to eq(0)
+        expect(rifle.ties).to eq(0)
+    end
+
     it "Returns correct stats when mens Soccer Season 2011-12 is updated with stats" do
        men_soccer_11 = Season.new("m-soccer", 2011)
 
@@ -70,6 +90,16 @@ context "Updates season statistics " do
         expect(men_soccer_11.points_for).to eq 29
         expect(men_soccer_11.points_against).to eq 24
         expect(men_soccer_11.average_points).to eq 29.0/21.0
+        
+     end
+
+     it "Returns correct derived stats for rifle" do
+        rifle = Season.new("c-rifle", 2017)
+ 
+        expect(rifle.loss_streak).to eq 0
+        expect(rifle.points_for).to eq 0
+        expect(rifle.points_against).to eq 0
+        expect(rifle.average_points).to eq 0
         
      end
 end
