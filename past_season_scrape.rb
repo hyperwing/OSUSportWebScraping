@@ -20,7 +20,7 @@ class Season
         @year = year
         @wins, @losses, @ties, @streak, @loss_streak, @points_against, @points_for, @average_points = 0, 0, 0, 0, 0, 0, 0, 0
         @pct = 0.0
-        update_stats if season_exists and sport != "c-pistol"
+        update_stats if season_exists
     end
 
     # Created 10/06/2019 by Leah Gillespie
@@ -39,6 +39,10 @@ class Season
         year_string = @year.to_s + "-" + (@year+1).to_s[2..]
         page = agent.get("https://ohiostatebuckeyes.com/sports/" + @sport + "/schedule/season/" + year_string)
         
+        if @sport == "c-pistol" or @sport == "m-track" or @sport == "w-track"
+            return false
+        end
+
         not page.search("h2").xpath("text()").text.strip == "Events aren't found for the selected season"
             
     end
@@ -59,7 +63,7 @@ class Season
         
         number_of_games = 0
 
-        won = false
+        won = true
         results.children.each do |result|
 
             if result.text.strip == "W"
@@ -72,7 +76,7 @@ class Season
                 won = true
                 number_of_games += 1
             else
-                if result.text.strip.length >0
+                if result.text.strip.length >0 and result.text.strip =~ /[0-9]*/ and result.text.strip =~ /-[0-9]*/
                     if won
                         @points_for += result.text.strip.match(/[0-9]*/)[0].to_i
                         @points_against += result.text.strip.match(/-[0-9]*/)[0].to_i * -1
@@ -84,7 +88,8 @@ class Season
             end
         end
 
-        @average_points = points_for.to_f/number_of_games.to_f
+        number_of_games == 0? @average_points=points_for: @average_points = points_for.to_f/number_of_games.to_f
+
 
         max_streak = 0
         streak = 0
@@ -107,12 +112,13 @@ class Season
                 streak = 0
                 loss_streak +=1
             else
-                puts "error: not a w/l/t"
+                # puts "error: not a w/l/t"
             end
         end
         @streak = max_streak
         @loss_streak = loss_streak
-        @pct =((@wins + @ties) / (@wins+@ties+@losses).to_f)
+  
+        (@wins +@ties +@losses) == 0 ? @pct =0: @pct =((@wins + @ties) / (@wins+@ties+@losses).to_f)
     end
 
 end
