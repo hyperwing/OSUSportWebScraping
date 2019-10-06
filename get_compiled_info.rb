@@ -25,16 +25,13 @@ def get_search_keywords
     search_by_keyword = yes_no_input "Would you like to search news article titles by keyword(Y/N)? "
     keywords = []
     if search_by_keyword == "Y"
-        loop do
+        kw_valid = false
+        while !kw_valid
             print "Enter your keyword(s): "
-            inputKeys = gets.chomp.split " " #splits
+            inputKeys = gets.chomp.split " " #splits keywords
             keywords = inputKeys.map {|kw| kw.strip} #strips words of trailing whitespace, just in case
             kw_valid = kw_validity? keywords
-            if !kw_valid
-                puts 'keywords invalid! Be sure that you are entering real words or numbers.'
-            else
-                break
-            end         
+            puts 'keywords invalid! Be sure that you are entering real words or numbers.' if !kw_valid         
         end
     end
     keywords
