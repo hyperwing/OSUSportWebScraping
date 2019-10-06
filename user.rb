@@ -25,7 +25,6 @@ class User
   # Creates/write email File;
   def create_email(sports_news, schedules)
     user_file = File.open "user_information/#{@username}.txt", 'w'
-    user_file.puts @email
     if @info.include? 'News'
       kw = get_search_keywords #gets keywords
       @sports.each do |sport|
@@ -46,19 +45,16 @@ class User
 
   # Created 10/06/2019 by Neel Mansukhani
   # Sends self's email based on user preferences
-  def send_email(news_info, schedules, gmail)
+  def send_email(news_info, schedules, client)
+
     body_file = create_email news_info, schedules
     body = ""
     body_file.each do |line|
       body += line + "\n"
     end
-    gmail.deliver do
-      to @email
-      subject "OSU Sports Digest"
-      text_part do
-        body body
-      end
-    end
+    m = Mail.new to: @email, from: "osusportsdigest@gmail.com", subject: "OSU Sports Digest", body: body
+    message_object = Google::Apis::GmailV1::Message.new raw: m.encoded
+    client.send_user_message 'me', message_object
   end
 
   # Created 09/26/2019 by Neel Mansukhani

@@ -19,12 +19,22 @@
 require 'time'
 require 'net/smtp'
 require 'json'
-require 'gmail'
+require "google/apis/gmail_v1"
+require "googleauth"
+require "googleauth/stores/file_token_store"
+require "mail"
 require_relative 'utilities'
 require_relative 'info_scrape'
 require_relative 'get_compiled_info'
 require_relative 'user'
 require_relative 'past_season_scrape'
+
+# Constants used to authenticate our use of google's api
+OOB_URI = "urn:ietf:wg:oauth:2.0:oob".freeze
+APPLICATION_NAME = "Google Docs API Ruby Quickstart".freeze
+CREDENTIALS_PATH = "credentials.json".freeze
+TOKEN_PATH = "token.yaml".freeze
+SCOPE = Google::Apis::GmailV1::AUTH_GMAIL_COMPOSE
 
 # Created 09/24/2019 by Leah Gillespie
 # Edited 09/25/2019 by Neel Mansukhani: Added if __FILE__ to use functions in different files.
@@ -41,11 +51,14 @@ require_relative 'past_season_scrape'
 # 'Main' method, gather info, interacts with user
 puts "Gathering information..."
 start = Time.now
+# Client authorization to use google api
+client = Google::Apis::GmailV1::GmailService.new
+client.authorization = authorize
 cache_all_pages
+
 all_schedules_and_news = all_sports_schedules_and_news
 schedules = all_schedules_and_news[:schedules]
 news_info = all_schedules_and_news[:news]
-gmail = Gmail.connect("osusportsdigest", "403SleepForbidden")
 # Net::SMTP.start 'mail.google.com', 25,'127.0.0.1','osusportsdigest','403SleepForbidden'
 ending = Time.now
 puts "Finished gathering information. Time taken: #{ending-start} seconds."
@@ -59,7 +72,7 @@ if is_used_username? username
   user.remove_user_from_json if (yes_no_input "Would you like to unsubscribe? (Y/N):") == "Y"
 elsif (yes_no_input "Would you like to receive emails? (Y/N):") == "Y"
   user = User.get_user_preferences sports_reg_ex, username
-  user.send_email news_info, schedules, gmail
+  user.send_email news_info, schedules, client
   puts 'Email Successfully Sent'
 end
 puts "Below you can get information on sports."
