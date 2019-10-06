@@ -1,4 +1,5 @@
 # File created 10/04/2019 by Sri Ramya Dandu
+# Edited 10/05/2019 by Sharon Qiu
 
 # Tests functions in the utilities file
 require_relative("../utilities")
@@ -59,8 +60,9 @@ context 'Checks for valid auto suggestions' do
 
 end
 
+# Created 10/05/2019 by Sharon Qiu
+# Tests for method article_match?
 context 'Checks if a keyword is in an article and returns a boolean.' do
-
   it 'Returns false when given a keyword that is not in the article title.' do
     expect(article_match? ["Summer"], "Ohio State Fencing Welcomes Nine Freshmen").to eq(false)
   end
@@ -69,5 +71,76 @@ context 'Checks if a keyword is in an article and returns a boolean.' do
     expect(article_match? ["Annual"], "Ohio State to Host 19th Annual Ohio Collegiate Charity Classic").to eq(true)
   end
   
+  it 'Returns true when keyword is empty.' do
+    expect(article_match? [], "Ohio State to Host 19th Annual Ohio Collegiate Charity Classic").to eq(true)
+  end
 
+  it 'Returns true when keyword is a space.' do
+    expect(article_match? [" "], "Ohio State to Host 19th Annual Ohio Collegiate Charity Classic").to eq(true)
+  end
+
+  it 'Returns true when there are at least one word in keywords in the article.' do
+    expect(article_match? ["food", "annual"], "Ohio State to Host 19th Annual Ohio Collegiate Charity Classic").to eq(true)
+  end
+
+  it 'Returns false when there are at no words in keywords in the article.' do
+    expect(article_match? ["food", "foodies"], "Ohio State to Host 19th Annual Ohio Collegiate Charity Classic").to eq(false)
+  end
+
+  it 'Returns true when there are words in keywords that are part of words in the article.' do
+    expect(article_match? ["tate"], "Ohio State to Host 19th Annual Ohio Collegiate Charity Classic").to eq(true)
+  end
+
+  it 'Returns false when there are words in keywords that are part of words in the article but are LONGER than those words.' do
+    expect(article_match? ["Collegiates"], "Ohio State to Host 19th Annual Ohio Collegiate Charity Classic").to eq(false)
+  end
+end
+
+# Created 10/05/2019 by Sharon Qiu
+# Tests for method kw_validity?
+context 'Checks if the entered keywords are valid and returns a boolean.' do
+
+  it 'Returns false when given a keyword that is a space.' do
+    expect(kw_validity? [" "]).to eq(false)
+  end
+
+  it 'Returns false when given a keyword that is empty.' do
+    expect(kw_validity? [""]).to eq(false)
+  end
+
+  it 'Returns true when given a keyword without punctuations or numbers.' do
+    expect(kw_validity? ["abc"]).to eq(true)
+  end
+
+    it 'Returns true when given keywords with only numbers.' do
+    expect(kw_validity? ["123"]).to eq(true)
+  end
+
+  it 'Returns true when given keywords with numbers and letters.' do
+    expect(kw_validity? ["123abc"]).to eq(true)
+  end
+
+  it 'Returns false when given a keyword with punctuation and a mix of letters and numbers on left side.' do
+    expect(kw_validity? ["abc1-1"]).to eq(false)
+  end
+
+  it 'Returns false when given a keyword with punctuation and a mix of letters and numbers on right side.' do
+    expect(kw_validity? ["a-1a"]).to eq(false)
+  end
+
+  it 'Returns false when given a keyword with only punctuation.' do
+    expect(kw_validity? ["..."]).to eq(false)
+  end
+
+  it 'Returns false when given keywords with one having only punctuation and the other being valid.' do
+    expect(kw_validity? ["...", "hey"]).to eq(false)
+  end
+
+  it 'Returns false when given keywords starting with punctuation.' do
+    expect(kw_validity? ["-a"]).to eq(false)
+  end
+
+  it 'Returns false when given keywords ending with punctuation.' do
+    expect(kw_validity? ["aa-"]).to eq(false)
+  end
 end

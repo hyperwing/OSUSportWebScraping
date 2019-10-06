@@ -120,20 +120,24 @@ end
 
 # Created 10/05/2019 by Sharon Qiu
 # Checks if a keyword is valid.
-# Valid keywords only contain words or digits that do not end in punctuation.
+# Valid keywords only contain words or digits that do not end in punctuation. They are also strictly greater than a length of 2.
+# Letters and numbers can be mixed to form a keyword.
 def kw_validity? (keywords)
   valid = true
   kw_pattern = Regexp.new /^([[:alpha:]]+|\d+)[[:punct:]]?([[:alpha:]]+|\d+)$/
   keywords.each do |kw|
-    valid = false unless kw =~ kw_pattern
+    valid = false unless kw =~ kw_pattern && kw.length > 2
   end
   valid
 end
 
 # Created 10/05/2019 by Sharon Qiu
-# Checks if a keyword is in the article title
+# Checks if a keyword is in the article title.
+# This is a STRICT query. The regex will match UP TO the word.
+# It will not match the closest word found.
 def article_match? (query, article_title)
   found = false
+  return true if query.empty?
   temp_article = article_title.downcase
   query.each do |kw|
     pattern = Regexp.new /.*#{kw.downcase}.*/

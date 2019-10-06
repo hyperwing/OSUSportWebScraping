@@ -26,7 +26,7 @@ end
 # Returned keywords to search by. Returns keywords array
 def get_search_keywords
     search_by_keyword = yes_no_input "Would you like to search news article titles by keyword(Y/N)? "
-    keywords = ""
+    keywords = []
     if search_by_keyword == "Y"
         loop do
             print "Enter your keyword(s): "
