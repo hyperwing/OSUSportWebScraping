@@ -3,8 +3,6 @@
 # Edited 10/05/2019 by Neel Mansukhani
 # Creates user preferences and emails
 
-# TODO SNB refactor
-
 # Created 09/25/2019 by Neel Mansukhani
 # Edited 10/05/2019 by Sharon Qiu: added edits to create email for parsing by keyword for news.
 class User
@@ -22,37 +20,31 @@ class User
   # Created 09/25/2019 by Neel Mansukhani
   # Edited 10/05/2019 by Sharon Qiu: references to news and schedules have been fixed. Also added keywords
   # Edited 10/05/2019 by Neel Mansukhani: added get_user_preferences as class function
-  # Creates/write email File;
+  # Creates/write email body to a string which is returned
   def create_email(sports_news, schedules)
-    user_file = File.open "user_information/#{@username}.txt", 'w'
+    email = ""
     if @info.include? 'News'
       kw = get_search_keywords #gets keywords
       @sports.each do |sport|
         news = get_news sport, sports_news
-        news.display kw, user_file
+        email += news.display kw, email
       end
     end
     if @info.include? 'Schedule'
       @sports.each do |sport|
-        user_file.puts "#{sport} Schedule"
+        email += "#{sport} Schedule\n"
         schedule = get_schedule sport, schedules
-        schedule.display user_file
+        email += schedule.display email
       end
     end
-    user_file.close
-    File.open "user_information/#{@username}.txt", 'r'
+    email
   end
 
   # Created 10/06/2019 by Neel Mansukhani
   # Sends self's email based on user preferences
   def send_email(news_info, schedules, client)
-
-    body_file = create_email news_info, schedules
-    body = ""
-    body_file.each do |line|
-      body += line + "\n"
-    end
-    m = Mail.new to: @email, from: "osusportsdigest@gmail.com", subject: "OSU Sports Digest", body: body
+    body = create_email news_info, schedules
+    m = Mail.new to: @email, from: "osusportsdigest@gmail.com", charset: "UTF-8", subject: "OSU Sports Digest", body: body
     message_object = Google::Apis::GmailV1::Message.new raw: m.encoded
     client.send_user_message 'me', message_object
   end

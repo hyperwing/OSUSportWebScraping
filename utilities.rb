@@ -1,6 +1,7 @@
 # File Created 09/26/2019 by Neel Mansukhani
 # Edited 10/04/2019 by Sri Ramya Dandu
 # Edited 10/05/2019 by Sri Ramya Dandu
+# Edited 10/06/2019 by Neel Mansukhani
 # File provides various functionality for input/output
 # TODO: modularize file
 
@@ -151,7 +152,7 @@ end
 
 # Created 09/26/2019 by Neel Mansukhani
 def is_valid_email? email
-  return email.match /[a-zA-Z]+\.[1-9]\d*@(buckeyemail\.)?osu\.edu/
+  /^[a-zA-Z]+\.[1-9]\d*@(buckeyemail\.)?osu\.edu$/.match? email
 end
 
 # Created 10/06/2019 by Neel Manukhani
