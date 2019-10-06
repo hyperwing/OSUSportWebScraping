@@ -1,11 +1,16 @@
 # File Created 09/24/2019 by Leah Gillespie
+# Edited 09/26/2019 by Leah Gillespie
+# Edited 09/26/2019 by Neel Mansukhani
 # Edited 10/05/2019 by Sharon Qiu
+# Stores news information
 
 require_relative 'utilities'
 
 # Created 09/24/2019 by Leah Gillespie
 # Edited 09/26/2019 by Leah Gillespie
 # Edited 09/26/2019 by Neel Mansukhani
+# Edited 10/05/2019 by Sharon Qiu
+# Stores news information
 class News
 
   attr_reader :sport , :news
@@ -20,6 +25,7 @@ class News
   # Edited 09/26/2019 by Leah Gillespie
   # Edited 09/26/2019 by Neel Mansukhani: Prints to file if specified
   # Edited 10/05/2019 by Sharon Qiu: auto-initialized nil and allowed keyword_list for querying through news articles
+  # Displays news info
   def display(keyword_list, output = nil)
     # Article Query count
     count = 0
