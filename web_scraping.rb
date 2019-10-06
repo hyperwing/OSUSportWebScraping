@@ -18,6 +18,8 @@
 # This website provides infromation about all the sports with free parking, free admission, free fun.
 require 'time'
 require 'net/smtp'
+require 'json'
+require 'gmail'
 require_relative 'utilities'
 require_relative 'info_scrape'
 require_relative 'get_compiled_info'
@@ -43,22 +45,29 @@ cache_all_pages
 all_schedules_and_news = all_sports_schedules_and_news
 schedules = all_schedules_and_news[:schedules]
 news_info = all_schedules_and_news[:news]
-
+gmail = Gmail.connect("osusportsdigest", "403SleepForbidden")
+# Net::SMTP.start 'mail.google.com', 25,'127.0.0.1','osusportsdigest','403SleepForbidden'
 ending = Time.now
 puts "Finished gathering information. Time taken: #{ending-start} seconds."
-
-continue = "Y"
 sports_reg_ex = sport_reg_exp schedules
+print "Please enter a username: "
+username = gets.chomp
+if is_used_username? username
+  puts "Welcome back #{username}!"
+  users = JSON.load File.new 'user_information/user_data.json'
+  user = User.new username, users[username]['email'], users[username]['sports'], users[username]['info'], users[username]['subscription']
+  user.remove_user_from_json if (yes_no_input "Would you like to unsubscribe? (Y/N):") == "Y"
+elsif (yes_no_input "Would you like to receive emails? (Y/N):") == "Y"
+  user = User.get_user_preferences sports_reg_ex, username
+  user.send_email news_info, schedules, gmail
+  puts 'Email Successfully Sent'
+end
+puts "Below you can get information on sports."
 list_sports sports_reg_ex
+continue = "Y"
 
 # While user wants more info
 while continue == "Y"
-
-  if (yes_no_input "Would you like to receive emails? (Y/N):") == "Y"
-    user = User.get_user_preferences sports_reg_ex
-    user.create_email news_info, schedules
-    puts 'Email Successfully Created'
-  end
   sport = get_sport_choice sports_reg_ex
   s_n_b = "" # TODO refactor
   while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both" && s_n_b != "past"

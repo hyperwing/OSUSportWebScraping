@@ -11,12 +11,12 @@ class User
 
   attr_accessor :sports, :info
   # Created 09/25/2019 by Neel Mansukhani
-  def initialize(username, email, sports, info)
+  def initialize(username, email, sports, info, subscription)
     @username = username
     @email = email
     @sports = sports
     @info = info
-    # TODO: Permanently save user data to json.
+    @subscription = subscription
   end
 
   # Created 09/25/2019 by Neel Mansukhani
@@ -41,37 +41,51 @@ class User
       end
     end
     user_file.close
+    File.open "user_information/#{@username}.txt", 'r'
+  end
+
+  # Created 10/06/2019 by Neel Mansukhani
+  # Sends self's email based on user preferences
+  def send_email(news_info, schedules, gmail)
+    body_file = create_email news_info, schedules
+    body = ""
+    body_file.each do |line|
+      body += line + "\n"
+    end
+    gmail.deliver do
+      to @email
+      subject "OSU Sports Digest"
+      text_part do
+        body body
+      end
+    end
   end
 
   # Created 09/26/2019 by Neel Mansukhani
   # Edited 10/04/2019 by Sri Ramya Dandu: Factored input to functions
   # Edited 10/05/2019 by Sri Ramya Dandu: Fixed case issues
   # Edited 10/05/2019 by Neel Mansukhani: Moved to user class as class function
+  # Edited 10/06/2019 by Neel Mansukhani: Checks for used usernames
   # Gets user info and creates user obj
-  def self.get_user_preferences(sports_reg_ex)
-    print "Please enter a username: "
-    username = gets.chomp # TODO: Check if username already exists and don't ask for email on return of user
-    print "Please enter a valid email address: "
-    email = gets.chomp
-    while !isValidEmail? email # TODO: Create Regex in utilities
-      puts "Please enter a valid email address: "
+  def self.get_user_preferences(sports_reg_ex, username)
+    email = ""
+    while !is_valid_email? email
+      print "Please enter a valid osu email address: "
       email = gets.chomp
     end
-    # TODO: Add how often they want emails
     yes_no = "Y"
     sports = []
     while yes_no == "Y"
-      # TODO: Add display list of sports.
-      sports.push(get_sport_choice sports_reg_ex)
+      sports.push get_sport_choice sports_reg_ex
       yes_no = yes_no_input "Would you like to add another sport? (Y/N): "
     end
-    s_n_b = ""
-    while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both"
+    info_selection = ""
+    while info_selection != "schedule" && info_selection != "news" && info_selection != "both"
       print "Please enter 'Schedule' for schedule information, 'News' for news, or 'Both' for both: "
-      s_n_b = gets.chomp.downcase
+      info_selection = gets.chomp.downcase
     end
     info = []
-    case s_n_b
+    case info_selection
     when "schedule"
       info.push"Schedule"
     when "news"
@@ -80,6 +94,38 @@ class User
       info.push"Schedule"
       info.push"News"
     end
-    User.new username, email, sports, info
+    subscription = ""
+    while subscription != "daily" && subscription != "weekly" && subscription != "monthly"
+      print "How often do you want emails? Enter 'Daily', 'Weekly', or 'Monthly': "
+      subscription = gets.chomp.downcase
+    end
+    u = User.new username, email, sports, info, subscription
+    u.add_user_to_json
+    u
+  end
+
+  # Created 10/06/2019 by Neel Mansukhani
+  # Adds self to the user data json.
+  def add_user_to_json
+    hash = JSON.load File.new 'user_information/user_data.json'
+    hash[@username] = Hash.new
+    hash[@username]['email'] = @email
+    hash[@username]['sports'] = @sport
+    hash[@username]['info'] = @info
+    hash[@username]['subscription'] = @subscription
+    hash[@username]['last_email_sent'] = Time.now.strftime "%d/%m/%Y"
+    File.open "user_information/user_data.json","w" do |f|
+      f.puts JSON.pretty_generate hash
+    end
+  end
+
+  # Created 10/06/2019 by Neel Mansukhani
+  # Removes self from user data json.
+  def remove_user_from_json
+    hash = JSON.load File.new 'user_information/user_data.json'
+    hash.delete @username
+    File.open "user_information/user_data.json","w" do |f|
+      f.puts JSON.pretty_generate hash
+    end
   end
 end
