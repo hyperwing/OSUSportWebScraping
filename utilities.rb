@@ -150,3 +150,29 @@ end
 def isValidEmail? email
   return true # TODO: Create Regex
 end
+
+# Created 10/06/2019 by Leah Gillespie
+def get_year
+  valid_yr = false
+  while !valid_year
+    puts "Please enter the year you would like statistics for: "
+    user_year = gets.chomp
+    yr_reg_ex = Regexp.new /^[1-9]\d\d\d $/
+    if user_year =~ yr_reg_ex
+      valid_yr = true
+    else
+      puts "Sorry, that doesn't look like a valid year."
+    end
+    return user_year
+  end
+end
+
+# Created 10/06/2019 by Leah Gillespie
+def get_stats (stats)
+  if stats.season_exists
+    stats.update_stats
+    stats.display
+  else
+    puts "There are no recorded statistics for that season."
+  end
+end

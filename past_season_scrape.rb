@@ -8,7 +8,7 @@ require_relative 'schedule'
 # Created 09/24/2019 by David Wing
 class Season
 
-    attr_reader :sport, :year, :wins, :losses, :ties, :streak, :pct
+    attr_reader :sport, :year, :wins, :losses, :ties, :streak, :pct, :loss_streak
 
     # Created 09/24/2019 by David Wing
     def initialize(sport, year)
@@ -20,7 +20,13 @@ class Season
         @ties=0
         @streak=0
         @pct = 0.0
+        @loss_streak = 0
         update_stats if season_exists
+    end
+
+    # Created 10/06/2019 by Leah Gillespie
+    def display
+        puts "For the #{@year} season, OSU's #{@sport} team had a record of #{@wins} - #{@losses} - #{@ties}. Their longest winning streak was #{@streak} wins, and they won #{@pct} of their games."
     end
 
     # Created 09/24/2019 by David Wing
@@ -39,6 +45,7 @@ class Season
     end
 
     # Created 9/24/2019 by David Wing
+    # Edited 10/05/2019 by David Wing
     # updates the statistics of a given year
     def update_stats
 
@@ -49,9 +56,9 @@ class Season
 
         all_games = page.search("//div[@class='ohio--schedule-list ohio--schedule-page']").children.children.children.children
         
-        # TODO: 1 liner
         max_streak = 0
         streak = 0
+        loss_streak = 0
         all_games.children.each do |game|
 
             #TODO: streaks
@@ -59,20 +66,24 @@ class Season
             when "W"
                 @wins += 1
                 streak += 1
+                loss_streak =0
             when "T"
                 @ties += 1
                 max_streak = [max_streak, streak].max
                 streak = 0
+                loss_streak =0
             when "L"
                 @losses += 1
                 max_streak = [max_streak, streak].max
                 streak = 0
+                loss_streak +=1
             else
                 puts game
             end
             # puts game
         end
         @streak = max_streak
+        @loss_streak = loss_streak
         @pct =((@wins + @ties) / (@wins+@ties+@losses).to_f)
         # TODO: More stats
     end

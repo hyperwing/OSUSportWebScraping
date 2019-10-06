@@ -12,6 +12,7 @@
 require 'mechanize'
 require_relative 'schedule'
 require_relative 'news'
+require_relative 'caching.rb'
 
 
 # Created 09/23/2019 by Sri Ramya Dandu
@@ -78,19 +79,16 @@ end
 # Edited 09/26/2019 by Leah Gillespie: Added use of News class
 # Edited 10/05/2019 by Sharon Qiu: modified the return to return schedules and news in a hashmap.
 # Edited 10/05/2019 by Sri Ramya Dandu: Fixed issue with wrong '
+# Edited 10/06/2019 by Leah Gillespie: Edited to work with cached sites rather than direct access
 # Obtains and outputs all the schedules for all the free sports
 def all_sports_schedules_and_news
-  agent = Mechanize.new
-  osu_sports_page = agent.get "https://ohiostatebuckeyes.com/bucks-on-us/"
   sports_schedules = Array.new
   sports_news = Array.new
   # For schedule scraping
-  osu_sports_page.links_with(href: /sports/, class: /ohio-block-links__text/).each do |sport_page_link|
-    team_name = sport_page_link.text.strip
-    team_page = sport_page_link.click
-    sports_schedules.push (Schedule.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, '').gsub("’","'"), parse_schedule(team_page))
-    sports_news.push (News.new team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, '').gsub("’","'"), parse_news(team_page)) # returns articles without reference to sports team.
-  end
+  $all_sports.each { |team_page|
+    sports_schedules.push (Schedule.new team_page.name, parse_schedule(team_page.page))
+    sports_news.push (News.new team_page.name, parse_news(team_page.page)) # returns articles without reference to sports team.
+  }
 
   returned_hash = Hash.new{}
   returned_hash[:schedules] = sports_schedules
@@ -98,8 +96,3 @@ def all_sports_schedules_and_news
 
   returned_hash
 end
-
-=begin
-puts team_page.css('title').text.strip.gsub(/ – Ohio State Buckeyes/, '')
-    print parse_schedule team_page
-=end
