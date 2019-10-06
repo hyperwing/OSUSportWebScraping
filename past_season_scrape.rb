@@ -8,7 +8,7 @@ require_relative 'schedule'
 # Created 09/24/2019 by David Wing
 class Season
 
-    attr_reader :sport, :year, :wins, :losses, :ties, :streak, :pct, :loss_streak
+    attr_reader :sport, :year, :wins, :losses, :ties, :streak, :pct, :loss_streak, :points_for, :points_against, :average_points
 
     # Created 09/24/2019 by David Wing
     def initialize(sport, year)
@@ -21,6 +21,9 @@ class Season
         @streak=0
         @pct = 0.0
         @loss_streak = 0
+        @points_for = 0
+        @points_against = 0
+        @average_points = 0
         update_stats if season_exists
     end
 
@@ -48,7 +51,6 @@ class Season
     # Edited 10/05/2019 by David Wing
     # updates the statistics of a given year
     def update_stats
-
         agent = Mechanize.new
 
         year_string = @year.to_s + "-" + (@year+1).to_s[2..]
@@ -56,6 +58,38 @@ class Season
 
         all_games = page.search("//div[@class='ohio--schedule-list ohio--schedule-page']").children.children.children.children
         
+        results = page.search("//span[@class='results']")
+        # puts(results)
+        
+        number_of_games = results.children.length
+
+        won = false
+        results.children.each do |result|
+
+            # puts result.text.strip
+
+            if result.text.strip == "W"
+                won = true
+            elsif result.text.strip == "L"
+                won = false
+            elsif result.text.strip =="T"
+                won = true
+            else
+                if result.text.strip.length >0
+                    # puts result.text.strip
+                    if won
+                        @points_for += result.text.strip.match(/[0-9]*/)[0].to_i
+                        @points_against += result.text.strip.match(/-[0-9]*/)[0].to_i * -1
+                    else
+                        @points_against += result.text.strip.match(/[0-9]*/)[0].to_i
+                        @points_for += result.text.strip.match(/-[0-9]*/)[0].to_i * -1
+                    end
+                end
+            end
+        end
+
+        @average_points = points_for.to_f/number_of_games.to_f
+
         max_streak = 0
         streak = 0
         loss_streak = 0
