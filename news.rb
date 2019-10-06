@@ -22,7 +22,7 @@ class News
   # Edited 10/05/2019 by Sharon Qiu: auto-initialized nil and allowed keyword_list for querying through news articles
   def display(keyword_list = nil, output = nil)
     if output.nil?
-      if !keyword_list.nil?
+      if !keyword_list.empty?
         @news.each do |article|
           if article_match? keyword_list, article[1]
             puts "OSU #{@sport} news, #{article[0]}: #{article[1]}"

@@ -119,7 +119,6 @@ end
 # Created 10/05/2019 by Sharon Qiu
 # Checks if a keyword is valid.
 # Valid keywords only contain words or digits that do not end in punctuation.
-# Also cannot be single letters (searching the letter a is silly).
 def kw_validity? (keywords)
   valid = true
   kw_pattern = Regexp.new /^([[:alpha:]]+|\d+)[[:punct:]]?([[:alpha:]]+|\d+)$/
