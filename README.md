@@ -29,3 +29,8 @@ Sharon Qiu
 David Wing:
 * Parsing past seasons and gathering season stats
 * Setting up back end for a cron job
+
+
+Installation:
+>gem install whenever
+https://github.com/javan/whenever

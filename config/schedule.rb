@@ -1,11 +1,23 @@
-# Use this file to easily define all of your cron jobs.
-#
-# It's helpful, but not entirely necessary to understand cron before proceeding.
-# http://en.wikipedia.org/wiki/Cron
+# file created by David Wing 10/05/2019
+# edited by David Wing 10/06/2019
 
-# Example:
-#
-# set :output, "/path/to/my/cron_log.log"
+# Use this file to easily define all of your cron jobs.
+
+time = Time.new
+
+set :output, "cron_log/"+time.day+"-"+time.month+".log"
+# check user preferences to get timing for email
+
+# For each user pref file
+
+user = ""
+
+timing = 30.seconds
+
+every timing do 
+    runner "send_email.send_email(" + user + ")"
+end
+
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
