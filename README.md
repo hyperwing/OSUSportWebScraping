@@ -25,6 +25,7 @@ Neel Mansukhani
 
 Sharon Qiu
 * Parsing each sport's news feed, including date, team, headline, and URL
+* Keyword querying over the news articles per wanted sport
 
 David Wing:
 * Parsing past seasons and gathering season stats
