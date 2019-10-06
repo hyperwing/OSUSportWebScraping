@@ -1,6 +1,8 @@
 # File Created 09/26/2019 by Neel Mansukhani
 # Edited 10/04/2019 by Sri Ramya Dandu
 # Edited 10/05/2019 by Sri Ramya Dandu
+# File provides various functionality for input/output
+# TODO: modularize file
 
 # Created 10/04/2019 by Sri Ramya Dandu
 # Outputs a list of all the sports options
@@ -10,13 +12,13 @@ def list_sports(sports_reg_ex)
   sports_reg_ex.each_key do |sport|
     puts if i % 4 == 0
     print sport
-    (25 - sport.length).times do
+    # Spaces evenly
+    (28 - sport.length).times do
       print " "
     end
     i += 1
   end
-  puts
-  puts
+  puts "\n"
 end
 
 # Created 10/04/2019 by Sri Ramya Dandu
@@ -24,6 +26,7 @@ end
 # Obtains a valid sports choice
 def get_sport_choice(sports_reg_ex)
   print "Please enter the full name of a sport you would like information about:"
+  # Converts input to match format how sports are stored
   sport = gets.chomp.gsub(/[A-Za-z']+/,&:capitalize)
   while !sports_reg_ex.has_key? sport
     sport_suggestion  = auto_suggest sport, sports_reg_ex
@@ -33,7 +36,6 @@ def get_sport_choice(sports_reg_ex)
         sport = sport_suggestion
       else
         list_sports sports_reg_ex if (yes_no_input "Would you like to see the list of sports again?") == "Y"
-
         print "Please enter the full name of a sport you would like information about:"
         sport = gets.chomp.gsub(/[A-Za-z']+/,&:capitalize)
       end
@@ -67,10 +69,10 @@ def create_reg_exp(sport)
   sport_chars = sport.split ""
   sport_chars.each_index do |i|
     # regular expression contains substrings of various lengths
-    sport_regexp = sport_regexp + "|" + %Q*#{sport_chars[i]}#{sport_chars[i + 1]}#{sport_chars[i + 2]}#{sport_chars[i+3]}* if i < sport.length - 3
-    sport_regexp = sport_regexp + "|" + "#{sport_chars[i]}#{sport_chars[i + 1]}#{sport_chars[i + 2]}" if i < sport.length - 2
-    sport_regexp = sport_regexp + "|" + "#{sport_chars[i]}#{sport_chars[i + 1]}" if i < sport.length - 1
-    sport_regexp = sport_regexp + "|" + "#{sport_chars[i]}" if i < sport.length
+    sport_regexp += "|" + "#{sport_chars[i]}#{sport_chars[i + 1]}#{sport_chars[i + 2]}#{sport_chars[i+3]}" if i < sport.length - 3
+    sport_regexp += "|" + "#{sport_chars[i]}#{sport_chars[i + 1]}#{sport_chars[i + 2]}" if i < sport.length - 2
+    sport_regexp += "|" + "#{sport_chars[i]}#{sport_chars[i + 1]}" if i < sport.length - 1
+    sport_regexp += "|" + "#{sport_chars[i]}" if i < sport.length
   end
   Regexp.new sport_regexp[1, sport_regexp.length]
 end
@@ -110,10 +112,11 @@ def auto_suggest(input,sports_reg_exp)
       sport_suggestion = sport
       similarity = temp_similarity
     elsif temp_similarity == similarity
+      # returns different sports for mistyped input
       sport_suggestion = sport if rand(0..1) == 1
     end
   end
-
+  # returns empty string if not similar enough
   sport_suggestion = "" if (similarity == 1 || (similarity <= 3 && sport_suggestion.length > 15))
   sport_suggestion
 end
@@ -160,22 +163,24 @@ def is_used_username? username
   false
 end
 # Created 10/06/2019 by Leah Gillespie
+# gets valid 4-digit year
 def get_year
   valid_yr = false
-  while !valid_year
-    puts "Please enter the year you would like statistics for: "
+  while !valid_yr
+    print "Please enter the year you would like statistics for: "
     user_year = gets.chomp
-    yr_reg_ex = Regexp.new /^[1-9]\d\d\d $/
+    yr_reg_ex = Regexp.new /^[1-9]\d\d\d$/
     if user_year =~ yr_reg_ex
       valid_yr = true
     else
       puts "Sorry, that doesn't look like a valid year."
     end
-    return user_year
   end
+  return user_year.to_i
 end
 
 # Created 10/06/2019 by Leah Gillespie
+# updates statistics
 def get_stats (stats)
   if stats.season_exists
     stats.update_stats

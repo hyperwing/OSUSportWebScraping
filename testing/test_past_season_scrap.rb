@@ -1,4 +1,5 @@
 # File created 9/24/19 by David Wing
+# File edited 10/06/19 by David Wing
 
 require_relative("../past_season_scrape")
 
@@ -37,7 +38,6 @@ context "Updates season statistics " do
        expect(men_soccer_11.wins).to eq(10)
        expect(men_soccer_11.losses).to eq(7)
        expect(men_soccer_11.ties).to eq(4)
-
     end
 
 
@@ -60,6 +60,16 @@ context "Updates season statistics " do
         expect(m_bb_17.wins).to eq(36)
         expect(m_bb_17.losses).to eq(24)
         expect(m_bb_17.ties).to eq(0)
+     end
+
+
+     it "Returns correct derived stats for mens soccer 2011-12" do
+        men_soccer_11 = Season.new("m-soccer", 2011)
  
+        expect(men_soccer_11.loss_streak).to eq 2
+        expect(men_soccer_11.points_for).to eq 29
+        expect(men_soccer_11.points_against).to eq 24
+        expect(men_soccer_11.average_points).to eq 29.0/21.0
+        
      end
 end

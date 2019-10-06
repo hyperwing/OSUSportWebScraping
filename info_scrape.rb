@@ -12,7 +12,7 @@
 require 'mechanize'
 require_relative 'schedule'
 require_relative 'news'
-require_relative 'caching.rb'
+require_relative 'caching'
 
 
 # Created 09/23/2019 by Sri Ramya Dandu
@@ -48,7 +48,7 @@ end
 # [1] = headline
 # [2] = url
 def parse_news(webpage)
-  # TODO: Explan magic number
+  # 39 => index for news link for a given sport
   news_page = webpage.links_with(href: /news/, text: /News/)[39].click #index of the specific sport news
   news_articles = Array.new
   current_yr = nil
@@ -58,7 +58,7 @@ def parse_news(webpage)
     date = value.css('span').text.split
     date = date[0]
 
-    # Only takes in news articles for current year. This is a daily digest, not an archive of information...
+    # Only takes in news articles for current year. 
     current_yr = date.split('/')[2]
     prev_yr = current_yr if prev_yr == nil
     break if current_yr != prev_yr
@@ -86,8 +86,8 @@ def all_sports_schedules_and_news
   sports_news = Array.new
   # For schedule scraping
   $all_sports.each { |team_page|
-    sports_schedules.push (Schedule.new team_page.name, parse_schedule(team_page.page))
-    sports_news.push (News.new team_page.name, parse_news(team_page.page)) # returns articles without reference to sports team.
+    sports_schedules.push (Schedule.new team_page.name.gsub("’","'"), parse_schedule(team_page.page))
+    sports_news.push (News.new team_page.name.gsub("’","'"), parse_news(team_page.page)) # returns articles without reference to sports team.
   }
 
   returned_hash = Hash.new{}

@@ -5,6 +5,7 @@
 
 # Created 09/26/2019 by Leah Gillespie
 # Edited 09/26/2019 by Neel Mansukhani: Returns sport schedule instead of printing
+# gets schedules for each sport
 def get_schedule(sport, all_schedules)
     all_schedules.each do |current|
         return current if current.sport == sport
@@ -13,6 +14,7 @@ end
 
 # Created 09/26/2019 by Leah Gillespie
 # Edited 09/26/2019 by Neel Mansukhani: Returns sport news instead of printing
+# get new news for specific sports
 def get_news(sport, all_news)
     all_news.each do |current|
         return current if current.sport == sport

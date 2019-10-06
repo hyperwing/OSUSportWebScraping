@@ -1,10 +1,13 @@
-#Created 10/06/2019 by Leah Gillespie
-
+# Created 10/06/2019 by Leah Gillespie
+# Stores webpages into cache
 require 'mechanize'
 
 # Created 10/06/2019 by Leah Gillespie
+# Stores webpage data
 class Cache
   attr_accessor :page, :name
+
+  # Created 10/06/2019 by Leah Gillespie 
   def initialize (url, name)
     @agent = Mechanize.new
     @page = @agent.get url
@@ -13,6 +16,7 @@ class Cache
 end
 
 # Created 10/06/2019 by Leah Gillespie
+# Scrapes webpages for storage
 def cache_all_pages
   main_page = Cache.new"https://ohiostatebuckeyes.com/bucks-on-us/", "Home Page"
   $all_sports = Array.new

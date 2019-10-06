@@ -10,8 +10,12 @@
 # Edited 10/05/2019 by Sri Ramya Dandu
 # Edited 10/05/2019 by Sharon Qiu
 # Edited 10/05/2019 by Neel Mansukhani
+# Edited 10/06/2019 by David Wing
 
-# TODO: Documentation for all functions
+# Main logic for Project
+# Project Description: This program scrapes the following website
+# https://ohiostatebuckeyes.com/bucks-on-us/. 
+# This website provides infromation about all the sports with free parking, free admission, free fun.
 require 'time'
 require 'net/smtp'
 require 'json'
@@ -20,10 +24,7 @@ require_relative 'utilities'
 require_relative 'info_scrape'
 require_relative 'get_compiled_info'
 require_relative 'user'
-
-
-# TODO: Move functions to other file
-# TODO: all gets to upper case
+require_relative 'past_season_scrape'
 
 # Created 09/24/2019 by Leah Gillespie
 # Edited 09/25/2019 by Neel Mansukhani: Added if __FILE__ to use functions in different files.
@@ -35,6 +36,9 @@ require_relative 'user'
 # Edited 10/05/2019 by Sharon Qiu: Implemented news query search.
 # Edited 10/05/2019 by Neel Mansukhani: Removed if __FILE__
 # Edited 10/06/2019 by Leah Gillespie: added I/O for past seasons
+# Edited 10/06/2019 by David Wing: mapped sports to url names
+# ============================================================================
+# 'Main' method, gather info, interacts with user
 puts "Gathering information..."
 start = Time.now
 cache_all_pages
@@ -61,13 +65,17 @@ end
 puts "Below you can get information on sports."
 list_sports sports_reg_ex
 continue = "Y"
+
+# While user wants more info
 while continue == "Y"
   sport = get_sport_choice sports_reg_ex
-  s_n_b = ""
+  s_n_b = "" # TODO refactor
   while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both" && s_n_b != "past"
     print "Please enter 'Schedule' for schedule information, 'News' for news, or 'Both' for both, or enter 'Past' for statistics from a prior year: "
     s_n_b = gets.chomp.downcase
   end
+
+  # display info based on user choice
   case s_n_b
   when "schedule"
     schedule = get_schedule sport, schedules
@@ -83,8 +91,27 @@ while continue == "Y"
     news = get_news sport, news_info
     news.display kw
   when "past"
+
+    # Map the sport into url for the season
+    sport_map = {
+      "Cross Country, Men's" => "m-xc", "Cross Country, Women's" => "w-xc",
+      "Golf, Men's" => "m-golf", "Golf, Women's" =>"w-golf",
+      "Fencing"=> "x-fenc",
+      "Field Hockey"=>"w-fieldh","Ice Hockey, Women" => "w-hockey",
+      "Gymnastics, Men's" => "m-gym",
+      "Lacrosse, Women's" => "w-lacros",
+      "Pistol" => "c-pistol", "Rifle" => "c-rifle",
+      "Rowing" => "w-rowing",
+      "Soccer, Men's" => "m-soccer", "Soccer, Women's" => "w-soccer",
+      "Softball" => "w-softbl",
+      "Swimming & Diving, Men's" => "m-swim", "Swimming & Diving, Women's" => "w-swim", "Synchronized Swimming" => "w-syncs",
+      "Tennis, Men's" => "m-tennis","Tennis, Women's" => "w-tennis",
+      "Track & Field, Men's" => "m-track", "Track & Field, Women's" => "w-track",
+      "Volleyball, Men's" => "m-volley"
+    }
+    
     year = get_year
-    stats = Season.new sport, year
+    stats = Season.new sport_map[sport], year
     get_stats stats
   end
   continue = yes_no_input "Would you like more information? (Y/N):"
