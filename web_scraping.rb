@@ -14,6 +14,7 @@
 # TODO: Documentation for all functions
 require 'time'
 require 'net/smtp'
+require 'json'
 require_relative 'utilities'
 require_relative 'info_scrape'
 require_relative 'get_compiled_info'

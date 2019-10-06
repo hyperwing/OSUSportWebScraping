@@ -9,12 +9,24 @@ class User
 
   attr_accessor :sports, :info
   # Created 09/25/2019 by Neel Mansukhani
-  def initialize(username, email, sports, info)
+  def initialize(username, email, sports, info, subscription)
     @username = username
     @email = email
     @sports = sports
     @info = info
-    # TODO: Permanently save user data to json.
+    @subscription = subscription
+    last_email_sent =  Time.now.strftime "%d/%m/%Y"
+    # TODO: send email
+    hash = JSON.load 'user_information/user_data.json'
+    hash[username] = Hash.new
+    hash[username]['email'] = @email
+    hash[username]['sports'] = @sport
+    hash[username]['info'] = @info
+    hash[username]['subscription'] = @subscription
+    hash[username]['last_email_sent'] = Time.now.strftime "%d/%m/%Y"
+    File.open "user_information/user_data.json","w" do |f|
+      f.write hash.to_json
+    end
   end
 
   # Created 09/25/2019 by Neel Mansukhani
@@ -49,11 +61,10 @@ class User
     username = gets.chomp # TODO: Check if username already exists and don't ask for email on return of user
     print "Please enter a valid email address: "
     email = gets.chomp
-    while !isValidEmail? email # TODO: Create Regex in utilities
+    while !isValidEmail? email
       puts "Please enter a valid email address: "
       email = gets.chomp
     end
-    # TODO: Add how often they want emails
     yes_no = "Y"
     sports = []
     while yes_no == "Y"
@@ -76,6 +87,11 @@ class User
       info.push"Schedule"
       info.push"News"
     end
-    User.new username, email, sports, info
+    subscription = ""
+    while subscription != "daily" && subscription != "weekly" && subscription != "monthly"
+      print "How often do you want emails? Enter 'Daily', 'Weekly', or 'Monthly'"
+      subscription = gets.chomp.downcase
+    end
+    User.new username, email, sports, info, subscription
   end
 end

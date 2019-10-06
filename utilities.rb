@@ -148,7 +148,7 @@ end
 
 # Created 09/26/2019 by Neel Mansukhani
 def isValidEmail? email
-  return true # TODO: Create Regex
+  return email.match /[a-zA-Z]+\.[1-9]\d*@(buckeyemail\.)?osu\.edu/
 end
 
 # Created 10/06/2019 by Leah Gillespie
