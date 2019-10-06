@@ -32,9 +32,10 @@ require_relative 'user'
 # Edited 10/05/2019 by Sri Ramya Dandu: Fixed case issues
 # Edited 10/05/2019 by Sharon Qiu: Implemented news query search.
 # Edited 10/05/2019 by Neel Mansukhani: Removed if __FILE__
+# Edited 10/06/2019 by Leah Gillespie: added I/O for past seasons
 puts "Gathering information..."
 start = Time.now
-
+cache_all_pages
 all_schedules_and_news = all_sports_schedules_and_news
 schedules = all_schedules_and_news[:schedules]
 news_info = all_schedules_and_news[:news]
@@ -55,8 +56,8 @@ while continue == "Y"
   end
   sport = get_sport_choice sports_reg_ex
   s_n_b = ""
-  while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both"
-    print "Please enter 'Schedule' for schedule information, 'News' for news, or 'Both' for both: "
+  while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both" && s_n_b != "past"
+    print "Please enter 'Schedule' for schedule information, 'News' for news, or 'Both' for both, or enter 'Past' for statistics from a prior year: "
     s_n_b = gets.chomp.downcase
   end
   case s_n_b
@@ -73,6 +74,10 @@ while continue == "Y"
     schedule.display nil
     news = get_news sport, news_info
     news.display kw
+  when "past"
+    year = get_year
+    stats = Season.new sport, year
+    get_stats stats
   end
   continue = yes_no_input "Would you like more information? (Y/N):"
 end

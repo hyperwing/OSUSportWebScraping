@@ -23,6 +23,11 @@ class Season
         update_stats if season_exists
     end
 
+    # Created 10/06/2019 by Leah Gillespie
+    def display
+        puts "For the #{@year} season, OSU's #{@sport} team had a record of #{@wins} - #{@losses} - #{@ties}. Their longest winning streak was #{@streak} wins, and they won #{@pct} of their games."
+    end
+
     # Created 09/24/2019 by David Wing
     # checks whether given sport has a record for the year provided
     # Params:
