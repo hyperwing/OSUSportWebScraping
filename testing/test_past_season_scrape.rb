@@ -6,12 +6,12 @@ require_relative("../past_season_scrape")
 # Created 9/24/19 by David Wing
 context "Checks if season has statistics " do
 
-    it "Returns true when mens Soccer Season 2010-2011 has stats" do
+    it "Returns true when men's Soccer Season 2010-2011 has stats" do
        men_soccer_10 = Season.new("m-soccer", 2010)
        expect(men_soccer_10.season_exists).to eq(true)
     end
 
-    it "Returns false when mens Soccer Season 1993-1994 doesnt have stats" do
+    it "Returns false when men's Soccer Season 1993-1994 doesnt have stats" do
         men_soccer_93 = Season.new("m-soccer", 1993)
         expect(men_soccer_93.season_exists).to eq(false)
     end

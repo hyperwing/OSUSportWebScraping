@@ -7,20 +7,19 @@ require_relative '../utilities'
 
 # Created 10/04/2019 by Sri Ramya Dandu
 # checks for regex
-# TODO: Parantheses
 context 'Checks for valid regular expressions for sport' do
   it "creates reg exp for sport with no space or apostrophe" do
-    reg_exp= create_reg_exp("soccer")
+    reg_exp= create_reg_exp"soccer"
     expect(reg_exp).to eq(Regexp.new "socc|soc|so|s|occe|occ|oc|o|ccer|cce|cc|c|cer|ce|c|er|e|r")
   end
 
   it "creates reg exp for sport with a space and no apostrophe" do
-    reg_exp= create_reg_exp("Field Hockey")
+    reg_exp= create_reg_exp"Field Hockey"
     expect(reg_exp).to eq(Regexp.new "Fiel|Fie|Fi|F|ield|iel|ie|i|eld |eld|el|e|ld H|ld |ld|l|d Ho|d H|d |d| Hoc| Ho| H| |Hock|Hoc|Ho|H|ocke|ock|oc|o|ckey|cke|ck|c|key|ke|k|ey|e|y")
   end
 
   it "creates reg exp for sport with no space and an apostrophe" do
-    reg_exp= create_reg_exp("Fi'eld")
+    reg_exp= create_reg_exp"Fi'eld"
     expect(reg_exp).to eq(Regexp.new "Fi'e|Fi'|Fi|F|i'el|i'e|i'|i|'eld|'el|'e|'|eld|el|e|ld|l|d")
   end
 

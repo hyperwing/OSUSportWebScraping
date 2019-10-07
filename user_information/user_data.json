@@ -1,10 +1,19 @@
 {
   "neelm88": {
     "email": "mansukhani.9@osu.edu",
-    "sports": null,
+    "sports": ["Soccer, Men's"],
     "info": [
-      "Schedule",
-      "News"
+      "Schedule"
+    ],
+    "subscription": "daily",
+    "last_email_sent": "06/10/2019"
+  },
+  "n": {
+    "email": "osusportsdigest@gmail.com",
+    "sports": ["Soccer, Men's"],
+    "info": [
+      "Schedule"
+      
     ],
     "subscription": "daily",
     "last_email_sent": "06/10/2019"
