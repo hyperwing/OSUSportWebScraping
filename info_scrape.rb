@@ -96,3 +96,5 @@ def all_sports_schedules_and_news
 
   returned_hash
 end
+
+cache_all_pages
