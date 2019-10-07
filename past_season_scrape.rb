@@ -26,7 +26,11 @@ class Season
     # Created 10/06/2019 by Leah Gillespie
     # Displays season stats
     def display
-        puts "For the #{@year} season, OSU's #{@sport} team had a record of #{@wins} - #{@losses} - #{@ties}. Their longest winning streak was #{@streak} wins, and they won #{@pct} of their games."
+        puts "For the #{@year} season, OSU's #{@sport} team had the following records: "
+        puts "Their overall record was #{@wins} - #{@losses} - #{@ties} for a win percentage of #{@pct} %."
+        puts "Their longest winning streak was #{@streak} wins and their longest losing streak was #{@loss_streak}."
+        puts "Over the course of the season, they scored #{@points_for} points, and had #{@points_against} points scored against them."
+        puts "They averaged #{@average_points} points per match."
     end
 
     # Created 09/24/2019 by David Wing

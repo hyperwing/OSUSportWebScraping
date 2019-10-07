@@ -42,6 +42,7 @@ Sharon Qiu
 
 ### How to run the project 
 1. Installation:
+> bundle install
 >gem install whenever
 https://github.com/javan/whenever
 
@@ -49,4 +50,5 @@ https://github.com/javan/whenever
 
 ### How to run tests
 Run the following command in terminal in the project directory
->rspec testing/test_utilities.rb testing/test_stats.rb testing_info_scrape.rb
+>rspec testing/test_utilities.rb testing/test_info_scrape.rb testing/test_past_season_scrape.rb
+
