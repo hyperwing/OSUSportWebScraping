@@ -3,7 +3,6 @@
 # Edited 10/05/2019 by Sri Ramya Dandu
 # Edited 10/06/2019 by Neel Mansukhani
 # File provides various functionality for input/output
-# TODO: modularize file
 
 # Created 10/04/2019 by Sri Ramya Dandu
 # Outputs a list of all the sports options
@@ -97,6 +96,7 @@ def auto_suggest(input,sports_reg_exp)
   sport_suggestion = ""
   # iterates through each regular expression option
 
+  return "" if input == " " || input == ""
   sports_reg_exp.each do |sport, reg_exp|
     #hashmap to numerize the similarity
     count = Hash.new 0
