@@ -23,7 +23,7 @@ def cache_all_pages
   file = File.open "cache/list_pages.txt", "w"
   main_page.page.links_with(href: /sports/, class: /ohio-block-links__text/).each do |page_link|
     curr_sport = Cache.new page_link.href, page_link.text.strip
-    File.delete "cache/" + curr_sport.name + ".html"
+    File.delete "cache/" + curr_sport.name + ".html" if File.exist? "cache/" + curr_sport.name + ".html"
     curr_sport.page.save "cache/" + curr_sport.name + ".html"
     file.puts curr_sport.name + ".html"
   end
