@@ -54,21 +54,14 @@ class News
       end
       puts "No articles found." if count == 0
     else
-      if !keyword_list.empty?
-        str += "OSU #{sport} News with relational keywords #{kw_str}\n"
-      else
-        str += "OSU #{sport} News\n"
-      end
-
+      str += "OSU #{sport} News\n"
       @news.each do |article|
-        if article_match? keyword_list, article[1]
-          count += 1
-          str += "OSU #{@sport} news, #{article[0]}: #{article[1]}\n"
-          str += "For more information, go to #{article[2]}\n"
-        end
+        count += 1
+        str += "OSU #{@sport} news, #{article[0]}: #{article[1]}\n"
+        str += "For more information, go to #{article[2]}\n"
       end
       str += "No articles found.\n" if count == 0
-    end
     str
+    end
   end
 end

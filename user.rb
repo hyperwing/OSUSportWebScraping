@@ -24,10 +24,9 @@ class User
   def create_email(sports_news, schedules)
     email = ""
     if @info.include? 'News'
-      kw = get_search_keywords #gets keywords
       @sports.each do |sport|
         news = get_news sport, sports_news
-        email += news.display kw, email
+        email += news.display [], email
       end
     end
     if @info.include? 'Schedule'
