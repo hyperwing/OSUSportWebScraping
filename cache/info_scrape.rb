@@ -92,8 +92,8 @@ def all_sports_schedules_and_news
     pg_list.each {|line|
         dir_name = File.dirname (__FILE__)
         page = agent.get "file:///#{dir_name}/#{line}"
-        sports_schedules.push (Schedule.new line[0, -5], parse_schedule(page))
-        sports_news.push (News.new line[0, -5], parse_news(page))
+        sports_schedules.push (Schedule.new line[0..-7], parse_schedule(page))
+        sports_news.push (News.new line[0..-7], parse_news(page))
     }
    end
   returned_hash = Hash.new{}

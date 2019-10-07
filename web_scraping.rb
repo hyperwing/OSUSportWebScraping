@@ -55,10 +55,10 @@ start = Time.now
 client = Google::Apis::GmailV1::GmailService.new
 client.authorization = authorize
 
-
 all_schedules_and_news = all_sports_schedules_and_news
 schedules = all_schedules_and_news[:schedules]
 news_info = all_schedules_and_news[:news]
+schedules.each {|item| puts item.sport}
 # Net::SMTP.start 'mail.google.com', 25,'127.0.0.1','osusportsdigest','403SleepForbidden'
 ending = Time.now
 puts "Finished gathering information. Time taken: #{ending-start} seconds."
