@@ -55,6 +55,7 @@ start = Time.now
 client = Google::Apis::GmailV1::GmailService.new
 client.authorization = authorize
 
+
 all_schedules_and_news = all_sports_schedules_and_news
 schedules = all_schedules_and_news[:schedules]
 news_info = all_schedules_and_news[:news]
@@ -82,8 +83,8 @@ continue = "Y"
 while continue == "Y"
   sport = get_sport_choice sports_reg_ex
   s_n_b = "" # TODO refactor
-  while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both" && s_n_b != "past"
-    print "Please enter 'Schedule' for schedule information, 'News' for news, or 'Both' for both, or enter 'Past' for statistics from a prior year: "
+  while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both"
+    print "Please enter 'Schedule' for schedule information, 'News' for news, or 'Both' for both: "
     s_n_b = gets.chomp.downcase
   end
 

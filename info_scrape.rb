@@ -10,9 +10,9 @@
 # https://ohiostatebuckeyes.com/bucks-on-us/  for each of the free sports
 
 require 'mechanize'
-require_relative '../schedule'
-require_relative '../news'
-require_relative '../caching'
+require_relative 'schedule'
+require_relative 'news'
+require_relative 'caching'
 
 
 # Created 09/23/2019 by Sri Ramya Dandu
@@ -87,16 +87,11 @@ end
 def all_sports_schedules_and_news
   sports_schedules = Array.new
   sports_news = Array.new
-  agent = Mechanize.new
   # For schedule scraping
-  File.open "cache/list_pages.txt", "r" do |pg_list|
-    pg_list.each {|line|
-      dir_name = File.dirname(__FILE__)
-      page = agent.get "file:///#{dir_name}/#{line}"
-      sports_schedules.push (Schedule.new line[0, -5], parse_schedule(page))
-      sports_news.push (News.new line[0, -5], parse_news(page))
-    }
-  end
+  $all_sports.each { |team_page|
+    sports_schedules.push (Schedule.new team_page.name.gsub("’","'"), parse_schedule(team_page.page))
+    sports_news.push (News.new team_page.name.gsub("’","'"), parse_news(team_page.page)) # returns articles without reference to sports team.
+  }
 
   returned_hash = Hash.new{}
   returned_hash[:schedules] = sports_schedules

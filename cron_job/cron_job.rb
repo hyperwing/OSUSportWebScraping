@@ -1,16 +1,16 @@
 # File created 10/05/2019 by David Wing
 # Edited 10/06/2019 by David Wing
-# Use this file to easily define all of your cron jobs.
+# This file is what the cron job calls to send emails.
 
 require 'json'
 require "google/apis/gmail_v1"
 require "googleauth"
 require "googleauth/stores/file_token_store"
 require "mail"
-require_relative "info_scrape"
-require_relative "caching"
-require_relative 'user'
-require_relative 'get_compiled_info'
+require_relative "../info_scrape"
+require_relative "../caching"
+require_relative '../user'
+require_relative '../get_compiled_info'
 
 
 
@@ -51,36 +51,12 @@ users.each do |user_json|
         next if !user_info['email']
         next if !user_info['subscription'] 
 
-        system("crontab -l > mycron")
 
-        case user_info["subscription"]
-        when "daily"    
-            system("echo \"MAILTO=\""+user_info['email']+ "\"\n0 0 12 * * ? ruby createCronJob.rb\" >>mycron")
-        when "weekly"
-            system("echo \"MAILTO=\""+user_info['email']+ "\"\n0 0 12 * * SAT ruby createCronJob.rb\" >>mycron")
-        when "monthly"
-            system("echo \"MAILTO=\""+user_info['email']+ "\"\n0 0 12 1 * ? ruby createCronJob.rb\" >>mycron")
-        end    
-
-        system("crontab mycron")
-        system("rm mycron")
-
-        # puts user_info["email"]
-        # puts user_info['info']
-        # puts user_info['sports']
-        # puts user_info['subscription']
         curr_user = User.new( user_json[0] ,user_info['email'], user_info['sports'], user_info['info'], user_info['subscription'])
-        
-
-        # puts curr_user.info
-        
+                
         curr_user.send_email(news_info, schedules, client)
-
-
 
 
     end
 
-
 end            
-
