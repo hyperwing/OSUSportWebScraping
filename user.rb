@@ -65,6 +65,7 @@ class User
     end
     yes_no = "Y"
     sports = []
+    list_sports sports_reg_ex
     while yes_no == "Y"
       sports.push get_sport_choice sports_reg_ex
       yes_no = yes_no_input "Would you like to add another sport? (Y/N): "

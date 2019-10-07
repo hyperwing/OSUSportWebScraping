@@ -1,12 +1,12 @@
 # Project 3
 ### Web Scraping
-This program scrapes the following website: https://ohiostatebuckeyes.com/bucks-on-us/. This website provides infromation about all the sports with free parking, free admission, free fun. 
+This program scrapes the following website: https://ohiostatebuckeyes.com/bucks-on-us/. This website provides information about all the sports with free parking, free admission, free fun. 
 
 The program scrapes data from each of the sports page and provides the following functionality:
 1. Provides schedule, news, and stats info for sports
-2. Allows user to save their information to recieve daily emails about their chosen sports
+2. Allows user to save their information to receive daily emails about their chosen sports
 3. Key word querying over news articles for wanted sports 
-4. Auto suggestion for wrong sports input 
+4. Auto suggestion for when user mistypes the sports input 
 
 ### Roles
 * Overall Project Manager: David Wing
