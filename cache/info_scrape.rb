@@ -14,6 +14,7 @@ require_relative '../schedule'
 require_relative '../news'
 require_relative '../caching'
 
+
 # Created 09/23/2019 by Sri Ramya Dandu
 # Parses the schedule page of the given sports team and returns an array
 #  array[0] = sports team
