@@ -48,8 +48,11 @@ end
 # [1] = headline
 # [2] = url
 def parse_news(webpage)
+    agent = Mechanize.new
   # 39 => index for news link for a given sport
-  news_page = webpage.links_with(href: /news/, text: /News/)[39].click #index of the specific sport news
+  main = "https://ohiostatebuckeyes.com"
+  news_page_ref = webpage.links_with(href: /news/, text: /News/)[39].href.to_s #index of the specific sport news
+  news_page = agent.get main + "#{news_page_reg}"
   news_articles = Array.new
   current_yr = nil
   prev_yr = nil
