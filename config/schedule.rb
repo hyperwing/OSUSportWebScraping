@@ -1,11 +1,12 @@
-# file created by David Wing 10/05/2019
-# edited by David Wing 10/06/2019
-
+# File created 10/05/2019 by David Wing
+# Edited 10/06/2019 by David Wing
 # Use this file to easily define all of your cron jobs.
 
 time = Time.new
 
+# Log file for cron job
 set :output, "cron_log/"+time.day+"-"+time.month+".log"
+
 # check user preferences to get timing for email
 
 # For each user pref file

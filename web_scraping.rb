@@ -10,18 +10,17 @@
 # Edited 10/05/2019 by Sri Ramya Dandu
 # Edited 10/05/2019 by Sharon Qiu
 # Edited 10/05/2019 by Neel Mansukhani
-
-# TODO: Documentation for all functions
+# Main logic for Project
+# Project Description: This program scrapes the following website
+# https://ohiostatebuckeyes.com/bucks-on-us/. 
+# This website provides infromation about all the sports with free parking, free admission, free fun.
 require 'time'
 require 'net/smtp'
 require_relative 'utilities'
 require_relative 'info_scrape'
 require_relative 'get_compiled_info'
 require_relative 'user'
-
-
-# TODO: Move functions to other file
-# TODO: all gets to upper case
+require_relative 'past_season_scrape'
 
 # Created 09/24/2019 by Leah Gillespie
 # Edited 09/25/2019 by Neel Mansukhani: Added if __FILE__ to use functions in different files.
@@ -33,6 +32,8 @@ require_relative 'user'
 # Edited 10/05/2019 by Sharon Qiu: Implemented news query search.
 # Edited 10/05/2019 by Neel Mansukhani: Removed if __FILE__
 # Edited 10/06/2019 by Leah Gillespie: added I/O for past seasons
+# ============================================================================
+# 'Main' method, gather info, interacts with user
 puts "Gathering information..."
 start = Time.now
 cache_all_pages
@@ -47,6 +48,7 @@ continue = "Y"
 sports_reg_ex = sport_reg_exp schedules
 list_sports sports_reg_ex
 
+# While user wants more info
 while continue == "Y"
 
   if (yes_no_input "Would you like to receive emails? (Y/N):") == "Y"
@@ -55,11 +57,13 @@ while continue == "Y"
     puts 'Email Successfully Created'
   end
   sport = get_sport_choice sports_reg_ex
-  s_n_b = ""
+  s_n_b = "" # TODO refactor
   while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both" && s_n_b != "past"
     print "Please enter 'Schedule' for schedule information, 'News' for news, or 'Both' for both, or enter 'Past' for statistics from a prior year: "
     s_n_b = gets.chomp.downcase
   end
+
+  # display info based on user choice
   case s_n_b
   when "schedule"
     schedule = get_schedule sport, schedules
@@ -77,7 +81,7 @@ while continue == "Y"
   when "past"
     year = get_year
     stats = Season.new sport, year
-    get_stats stats
+    get_stats stats #TODO: refactor get_stats
   end
   continue = yes_no_input "Would you like more information? (Y/N):"
 end

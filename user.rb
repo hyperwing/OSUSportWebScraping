@@ -1,7 +1,9 @@
 # File Created 09/25/2019 by Neel Mansukhani
 # Edited 10/05/2019 by Sharon Qiu
 # Edited 10/05/2019 by Neel Mansukhani
+# Creates user preferences and emails
 
+# TODO SNB refactor
 
 # Created 09/25/2019 by Neel Mansukhani
 # Edited 10/05/2019 by Sharon Qiu: added edits to create email for parsing by keyword for news.
@@ -20,6 +22,7 @@ class User
   # Created 09/25/2019 by Neel Mansukhani
   # Edited 10/05/2019 by Sharon Qiu: references to news and schedules have been fixed. Also added keywords
   # Edited 10/05/2019 by Neel Mansukhani: added get_user_preferences as class function
+  # Creates/write email File;
   def create_email(sports_news, schedules)
     user_file = File.open "user_information/#{@username}.txt", 'w'
     user_file.puts @email
@@ -39,11 +42,12 @@ class User
     end
     user_file.close
   end
+
   # Created 09/26/2019 by Neel Mansukhani
   # Edited 10/04/2019 by Sri Ramya Dandu: Factored input to functions
   # Edited 10/05/2019 by Sri Ramya Dandu: Fixed case issues
   # Edited 10/05/2019 by Neel Mansukhani: Moved to user class as class function
-  # Gets user info and creates file containing email contents
+  # Gets user info and creates user obj
   def self.get_user_preferences(sports_reg_ex)
     print "Please enter a username: "
     username = gets.chomp # TODO: Check if username already exists and don't ask for email on return of user
