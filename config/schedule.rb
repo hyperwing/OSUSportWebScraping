@@ -3,7 +3,7 @@
 # Use this file to easily define all of your cron jobs.
 
 require 'json'
-require_relative "../info_scrape"
+require_relative "../cache/info_scrape"
 require_relative "../caching"
 
 time = Time.new

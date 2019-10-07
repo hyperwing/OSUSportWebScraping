@@ -7,7 +7,7 @@ require "google/apis/gmail_v1"
 require "googleauth"
 require "googleauth/stores/file_token_store"
 require "mail"
-require_relative "../info_scrape"
+require_relative "../cache/info_scrape"
 require_relative "../caching"
 require_relative '../user'
 require_relative '../get_compiled_info'

@@ -14,7 +14,6 @@ require_relative '../schedule'
 require_relative '../news'
 require_relative '../caching'
 
-
 # Created 09/23/2019 by Sri Ramya Dandu
 # Parses the schedule page of the given sports team and returns an array
 #  array[0] = sports team
@@ -48,8 +47,11 @@ end
 # [1] = headline
 # [2] = url
 def parse_news(webpage)
+  agent = Mechanize.new
   # 39 => index for news link for a given sport
-  news_page = webpage.links_with(href: /news/, text: /News/)[39].click #index of the specific sport news
+  main = "https://ohiostatebuckeyes.com"
+  news_page_ref = webpage.links_with(href: /news/, text: /News/)[39].href.to_s #index of the specific sport news
+  news_page = agent.get main + "#{news_page_reg}"
   news_articles = Array.new
   current_yr = nil
   prev_yr = nil
@@ -88,13 +90,12 @@ def all_sports_schedules_and_news
   # For schedule scraping
   File.open "cache/list_pages.txt", "r" do |pg_list|
     pg_list.each {|line|
-      dir_name = File.dirname(__FILE__)
-      page = agent.get "file:///#{dir_name}/#{line}"
-      sports_schedules.push (Schedule.new line[0, -5], parse_schedule(page))
-      sports_news.push (News.new line[0, -5], parse_news(page))
+        dir_name = File.dirname (__FILE__)
+        page = agent.get "file:///#{dirname}/#{line}"
+        sports_schedules.push (Schedule.new line[0, -5], parse_schedule(page))
+        sports_news.push (News.new line[0, -5], parse_news(page))
     }
-  end
-
+   end
   returned_hash = Hash.new{}
   returned_hash[:schedules] = sports_schedules
   returned_hash[:news] = sports_news

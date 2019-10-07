@@ -3,7 +3,7 @@
 
 # Tests that functions in the info_scrape file
 <<<<<<< HEAD
-require_relative "../info_scrape"
+require_relative "../cache/info_scrape"
 require 'mechanize'
 =begin
 # Created 10/04/2019 by Sri Ramya Dandu
