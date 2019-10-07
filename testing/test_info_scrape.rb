@@ -2,20 +2,12 @@
 # Edited 10/06/2019 by Sri Ramya Dandu
 
 # Tests that functions in the info_scrape file
-<<<<<<< HEAD
-require_relative "../cache/info_scrape"
-require 'mechanize'
-=begin
-# Created 10/04/2019 by Sri Ramya Dandu
-# Tests for valid schedule scrape for sports.
-=======
 
 require 'mechanize'
-require_relative '../info_scrape'
+require_relative '../cache/info_scrape'
 
 # Created 10/04/2019 by Sri Ramya Dandu
 # Edited 10/06/2019 by Sri Ramya Dandu: Works with cached files
->>>>>>> ee3dfbfce0add6607dab8b8978856a7083a21b2e
 context 'Checks for valid schedules' do
 
   it "obtains a long schedule for Field Hockey" do
@@ -36,14 +28,6 @@ context 'Checks for valid schedules' do
 
   it "obtains a medium schedule for Softball" do
     agent = Mechanize.new
-<<<<<<< HEAD
-    bad_link = agent.get "https://ohiostatebuckeyes.com/sports/w-syncs/"
-    game_info = parse_schedule bad_link
-    expect(game_info).to eq([["Sat Jan 26", "Minnesota", "away"], ["Sun Jan 27", "Michigan", "away"], ["Sat Feb 9", "Richmond", "... "OSU Zero Waste Invitational", "home"], ["Sat Feb 2", "Jessica Beck Memorial Competition", "home"]]
-  end
-end
-=end
-=======
     html_dir = File.dirname(__FILE__)
     page = agent.get("file:///#{html_dir}/Softball.html")
     game_info = parse_schedule page
@@ -59,4 +43,3 @@ end
   end
 
 end
->>>>>>> ee3dfbfce0add6607dab8b8978856a7083a21b2e

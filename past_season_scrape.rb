@@ -40,7 +40,7 @@ class Season
 
         agent = Mechanize.new
 
-        year_string = @year.to_s + "-" + (@year+1).to_s[2..]
+        year_string = @year.to_s + "-" + (@year+1).to_s[2..-1]
         page = agent.get("https://ohiostatebuckeyes.com/sports/" + @sport + "/schedule/season/" + year_string)
         
         if @sport == "c-pistol" or @sport == "m-track" or @sport == "w-track"
