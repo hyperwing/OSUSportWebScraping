@@ -24,7 +24,7 @@ require "googleauth"
 require "googleauth/stores/file_token_store"
 require "mail"
 require_relative 'utilities'
-require_relative 'info_scrape'
+require_relative 'cache/info_scrape'
 require_relative 'get_compiled_info'
 require_relative 'user'
 require_relative 'past_season_scrape'
