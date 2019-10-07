@@ -3,7 +3,8 @@
 # Edited 10/05/2019 by Neel Mansukhani
 # Creates user preferences and emails
 
-# TODO SNB refactor
+require_relative 'cron_job/create_cron_job'
+
 
 # Created 09/25/2019 by Neel Mansukhani
 # Edited 10/05/2019 by Sharon Qiu: added edits to create email for parsing by keyword for news.
@@ -88,6 +89,7 @@ class User
     while subscription != "daily" && subscription != "weekly" && subscription != "monthly"
       print "How often do you want emails? Enter 'Daily', 'Weekly', or 'Monthly': "
       subscription = gets.chomp.downcase
+      set_cron_job
     end
     u = User.new username, email, sports, info, subscription
     u.add_user_to_json
