@@ -26,7 +26,11 @@ class Season
     # Created 10/06/2019 by Leah Gillespie
     # Displays season stats
     def display
-        puts "For the #{@year} season, OSU's #{@sport} team had a record of #{@wins} - #{@losses} - #{@ties}. Their longest winning streak was #{@streak} wins, and they won #{@pct} of their games."
+        puts "For the #{@year} season, OSU's #{@sport} team had the following records: "
+        puts "Their overall record was #{@wins} - #{@losses} - #{@ties} for a win percentage of #{@pct} %."
+        puts "Their longest winning streak was #{@streak} wins and their longest losing streak was #{@loss_streak}."
+        puts "Over the course of the season, they scored #{@points_for} points, and had #{@points_against} points scored against them."
+        puts "They averaged #{@average_points} points per match."
     end
 
     # Created 09/24/2019 by David Wing
@@ -39,6 +43,10 @@ class Season
         year_string = @year.to_s + "-" + (@year+1).to_s[2..]
         page = agent.get("https://ohiostatebuckeyes.com/sports/" + @sport + "/schedule/season/" + year_string)
         
+        if @sport == "c-pistol" or @sport == "m-track" or @sport == "w-track"
+            return false
+        end
+
         not page.search("h2").xpath("text()").text.strip == "Events aren't found for the selected season"
             
     end
@@ -57,19 +65,22 @@ class Season
         
         results = page.search("//span[@class='results']")
         
-        number_of_games = results.children.length
+        number_of_games = 0
 
-        won = false
+        won = true
         results.children.each do |result|
 
             if result.text.strip == "W"
                 won = true
+                number_of_games += 1
             elsif result.text.strip == "L"
                 won = false
+                number_of_games += 1
             elsif result.text.strip =="T"
                 won = true
+                number_of_games += 1
             else
-                if result.text.strip.length >0
+                if result.text.strip.length >0 and result.text.strip =~ /[0-9]*/ and result.text.strip =~ /-[0-9]*/
                     if won
                         @points_for += result.text.strip.match(/[0-9]*/)[0].to_i
                         @points_against += result.text.strip.match(/-[0-9]*/)[0].to_i * -1
@@ -81,7 +92,8 @@ class Season
             end
         end
 
-        @average_points = points_for.to_f/number_of_games.to_f
+        number_of_games == 0? @average_points=points_for: @average_points = points_for.to_f/number_of_games.to_f
+
 
         max_streak = 0
         streak = 0
@@ -104,12 +116,13 @@ class Season
                 streak = 0
                 loss_streak +=1
             else
-                puts "error: not a w/l/t"
+                # puts "error: not a w/l/t"
             end
         end
         @streak = max_streak
         @loss_streak = loss_streak
-        @pct =((@wins + @ties) / (@wins+@ties+@losses).to_f)
+  
+        (@wins +@ties +@losses) == 0 ? @pct =0: @pct =((@wins + @ties) / (@wins+@ties+@losses).to_f)
     end
 
 end

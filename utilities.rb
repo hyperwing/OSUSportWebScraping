@@ -1,6 +1,7 @@
 # File Created 09/26/2019 by Neel Mansukhani
 # Edited 10/04/2019 by Sri Ramya Dandu
 # Edited 10/05/2019 by Sri Ramya Dandu
+# Edited 10/06/2019 by Neel Mansukhani
 # File provides various functionality for input/output
 # TODO: modularize file
 
@@ -150,11 +151,18 @@ def article_match? (query, article_title)
 end
 
 # Created 09/26/2019 by Neel Mansukhani
-# Check if osu email is valid
-def isValidEmail? email
-  return true # TODO: Create Regex
+def is_valid_email? email
+  /^[a-zA-Z]+\.[1-9]\d*@(buckeyemail\.)?osu\.edu$/.match? email
 end
 
+# Created 10/06/2019 by Neel Manukhani
+def is_used_username? username
+  hash = JSON.load File.new 'user_information/user_data.json'
+  hash.each_key do |u|
+    return true if u == username
+  end
+  false
+end
 # Created 10/06/2019 by Leah Gillespie
 # gets valid 4-digit year
 def get_year
@@ -181,4 +189,24 @@ def get_stats (stats)
   else
     puts "There are no recorded statistics for that season."
   end
+end
+
+# Created 10/06/2019 by Neel Mansukhani
+# Gives our email authorization to use Google's api
+def authorize
+  client_id = Google::Auth::ClientId.from_file CREDENTIALS_PATH
+  token_store = Google::Auth::Stores::FileTokenStore.new file: TOKEN_PATH
+  authorizer = Google::Auth::UserAuthorizer.new client_id, SCOPE, token_store
+  user_id = "default"
+  credentials = authorizer.get_credentials user_id
+  if credentials.nil?
+    url = authorizer.get_authorization_url base_url: OOB_URI
+    puts "Open the following URL in the browser and enter the " \
+         "resulting code after authorization:\n" + url
+    code = gets
+    credentials = authorizer.get_and_store_credentials_from_code(
+        user_id: user_id, code: code, base_url: OOB_URI
+    )
+  end
+  credentials
 end

@@ -1,5 +1,6 @@
 # File created 10/04/2019 by Sri Ramya Dandu
 # Edited 10/05/2019 by Sharon Qiu
+# Edited 10/06/2019 by Neel Mansukhani
 
 # Tests functions in the utilities file
 require_relative '../utilities'
@@ -146,5 +147,45 @@ context 'Checks if the entered keywords are valid and returns a boolean.' do
 
   it 'Returns false when given keywords ending with punctuation.' do
     expect(kw_validity? ["aa-"]).to eq(false)
+  end
+end
+
+# Created 10/06/2019 by Neel Mansukhani
+# Tests for is_valid_email?
+context 'Checks if an email is a valid osu email address returns a boolean.' do
+
+  it 'Returns false when given empty string' do
+    expect(is_valid_email? "").to eq false
+  end
+
+  it 'Returns false when given "@"' do
+    expect(is_valid_email? "@").to eq false
+  end
+
+  it 'Returns false when given email without domain.' do
+    expect(is_valid_email? "mansukhani.9").to eq false
+  end
+
+  it 'Returns false when dot number is 0.' do
+    expect(is_valid_email? "mansukhani.0@osu.edu").to eq false
+  end
+
+  it 'Returns true when given valid osu.edu email' do
+    expect(is_valid_email? "mansukhani.9@osu.edu").to eq true
+  end
+
+  it 'Returns true when given a valid buckeyemail.osu.edu email' do
+    expect(is_valid_email? "mansukhani.9@buckeyemail.osu.edu").to eq true
+  end
+
+  it 'Returns false when given a dot number with a leading zero' do
+    expect(is_valid_email? "mansukhani.09@osu.edu").to eq false
+  end
+  it 'Returns true when given a 2 digit dot number' do
+    expect(is_valid_email? "mansukhani.90@osu.edu").to eq true
+  end
+
+  it 'Returns true when given a 3 digit dot number.' do
+    expect(is_valid_email? "mansukhani.909@osu.edu").to eq true
   end
 end
