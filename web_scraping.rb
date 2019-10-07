@@ -54,7 +54,6 @@ start = Time.now
 # Client authorization to use google api
 client = Google::Apis::GmailV1::GmailService.new
 client.authorization = authorize
-cache_all_pages
 
 all_schedules_and_news = all_sports_schedules_and_news
 schedules = all_schedules_and_news[:schedules]
