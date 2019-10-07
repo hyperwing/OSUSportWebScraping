@@ -83,8 +83,8 @@ continue = "Y"
 while continue == "Y"
   sport = get_sport_choice sports_reg_ex
   s_n_b = "" # TODO refactor
-  while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both"
-    print "Please enter 'Schedule' for schedule information, 'News' for news, or 'Both' for both: "
+  while s_n_b != "schedule" && s_n_b != "news" && s_n_b != "both" && s_n_b != "past"
+    print "Please enter 'Schedule' for schedule information, 'News' for news, 'Both' for both, or enter 'Past' for statistics from a past season: "
     s_n_b = gets.chomp.downcase
   end
 

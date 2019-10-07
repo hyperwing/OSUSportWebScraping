@@ -29,7 +29,7 @@ Sri Ramya Dandu
 Leah Gillespie
 * User interface (accepting user input, displaying information)
 * Creating data structures for parsed data to be used in search
-* Caching all of the sports page
+* Caching all of the sports pages
 
 Neel Mansukhani
 * Setting up back end to store user data

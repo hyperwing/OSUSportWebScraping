@@ -28,7 +28,7 @@ class Season
     def display
         puts "For the #{@year} season, OSU's #{@sport} team had the following records: "
         puts "Their overall record was #{@wins} - #{@losses} - #{@ties} for a win percentage of #{@pct} %."
-        puts "Their longest winning streak was #{@streak} wins and their longest losing streak was #{@loss_streak}."
+        puts "Their longest winning streak was #{@streak} win(s) and their longest losing streak was #{@loss_streak} loss(es)."
         puts "Over the course of the season, they scored #{@points_for} points, and had #{@points_against} points scored against them."
         puts "They averaged #{@average_points} points per match."
     end
